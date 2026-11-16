@@ -62,6 +62,7 @@ read:
 | `nav_title` | The title in the navigation. |
 | `nav_order` | Sort key among the pages of a directory; pages without one come after, by file name. |
 | `nav_exclude` | `true` leaves the page out of the navigation. |
+| `nav_children` | The pages below this one in the navigation, in order (source paths, relative to the page or, with a leading `/`, to the source directory). On the root `index` page, it makes the navigation follow these lists instead of the directories. |
 | `sitemap` | `false` leaves the page out of the sitemap. |
 
 Every key is available to page templates as `page.metadata`.

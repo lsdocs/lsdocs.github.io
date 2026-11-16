@@ -27,7 +27,7 @@ changes only add fields and features older peers can ignore.
 | `initialized` | lsdocs | Notification: phase requests follow. |
 | `parse` | lsdocs | A file's path and text in, a document out. |
 | `transform/collect` | lsdocs | A document in, any collected data out. |
-| `transform/collected` | lsdocs | Everything collected, once, before the apply pass. |
+| `transform/collected` | lsdocs | Everything collected, once, before the apply pass; documents the plugin generates from it out. |
 | `transform/apply` | lsdocs | A document in, the transformed document out. |
 | `render` | lsdocs | A document in, the output bytes out. |
 | `render/site` | lsdocs | The rendered pages in, extra files out. |

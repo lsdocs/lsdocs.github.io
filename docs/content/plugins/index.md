@@ -37,10 +37,15 @@ makes.
 - **Notes:** `versionadded`, `versionchanged`, `deprecated`,
   `versionremoved`, `seealso`, and `todo` / `todolist`.
 - **Content:** `only`, `centered`, `hlist`, `glossary`, `sectionauthor`,
-  `codeauthor`, `acks`, `tabularcolumns` (ignored), `index` (an anchor:
-  there is no index page yet) and `math` with `:label:`.
+  `codeauthor`, `acks`, `rubric` (with `:heading-level:`),
+  `tabularcolumns` (ignored) and `math` with `:label:`.
+- **Index:** the `index` directive and role add entries (`single`,
+  `pair`, `triple`, `see`, `seealso`) to a generated `genindex` page,
+  which `` :ref:`genindex` `` links to.
 - **Structure:** `toctree`, as a list of links to the pages it names and
-  their sections. It does not change the navigation yet.
+  their sections. The pages a page's toctrees name become its children in
+  the navigation (`nav_children`, for transform-nav), and `:numbered:`
+  numbers their sections (`1.2. Title`).
 - **Roles:** `ref`, `doc` (to a page in any format), `numref`, `term`,
   `eq`, `any`, `download`, and the inline roles `abbr`, `command`, `dfn`,
   `file`, `guilabel`, `kbd`, `mailheader`, `makevar`, `manpage`,
@@ -59,6 +64,7 @@ makes.
 | `show_authors` | `false` | Show `sectionauthor` and `codeauthor`. |
 | `manpages_url` | none | Where `manpage` links: `"https://man.example/{page}.{section}"`. |
 | `extlinks` | `{}` | Roles that make links: `{ issue = { url = "https://github.com/o/r/issues/%s", caption = "#%s" } }`. |
+| `toctree_nav` | `true` | Make toctrees the navigation (through `nav_children`). |
 
 Domains (`py:function` and the like) are not supported yet.
 
@@ -88,7 +94,10 @@ Builds the site navigation, from the source directories, for each page:
 the sidebar and the previous and next links. A directory's `index` page
 names its section. Pages are ordered by `nav_order`, then file name;
 `nav_title` and `nav_exclude` change a page's entry (see
-[front matter](../guide/writing.md#front-matter)).
+[front matter](../guide/writing.md#front-matter)). If the root `index`
+page lists its children in `nav_children` (as sphinx-addons does from
+toctrees), the navigation follows those lists instead of the
+directories.
 
 ## transform-highlight
 
