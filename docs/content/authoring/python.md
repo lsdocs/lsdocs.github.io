@@ -6,7 +6,9 @@ nav_order: 2
 # Plugins in Python
 
 The `lsdocs-plugin` package (`import lsdocs_plugin`) registers handlers
-by decorator. Each handler gets the request's params, as dicts shaped like
+by decorator (its API reference: [`lsdocs_plugin`](../api/lsdocs_plugin.md)
+and [`lsdocs_plugin.testing`](../api/lsdocs_plugin.testing.md), generated
+from its source). Each handler gets the request's params, as dicts shaped like
 the protocol, and a context:
 
 ```python

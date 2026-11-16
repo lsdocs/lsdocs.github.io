@@ -68,6 +68,33 @@ makes.
 
 Domains (`py:function` and the like) are not supported yet.
 
+## apidoc-python
+
+Documents Python packages from their source code, without running or
+importing them: a page per module (under `api/py`) with each class,
+function, method, property, attribute and type alias, its signature and
+its docstring. Docstrings are reStructuredText (or Markdown, with
+`doc_format = "md"`), with Google, NumPy or Sphinx field list sections.
+Names starting with `_` and names a module's `__all__` leaves out are
+private and left out.
+
+It also brings the `py` domain, in reStructuredText and Markdown alike:
+`.. py:function:: name(args)` (and `py:class`, `py:method`,
+`py:attribute`, `py:data`, ...) describes an item by hand, `.. py:auto::
+pkg.name` places a generated one in a page, and `` :py:func:`name` ``
+(`py:class`, `py:meth`, `py:attr`, `py:mod`, `py:obj`, ...) links to one.
+
+| Option | Default | Meaning |
+|---|---|---|
+| `paths` | (required) | Packages (directories) and modules (`.py`, `.pyi`) to document, relative to the site directory. |
+| `output` | `"api/py"` | Where the pages go, under the source directory. |
+| `private` | `false` | Document private items too. |
+| `doc_format` | `"rst"` | The markup of docstrings: the extension of a parser (`rst`, `md`). |
+| `doc_style` | `"auto"` | Docstring sections: `auto`, `plain`, `google`, `numpy`, `sphinx`, `tags`. |
+| `primary` | `false` | Also take the roles without `py:` (`:func:`), as Sphinx's `primary_domain`. |
+
+This site's [Python API](../api/index.md) is made by it.
+
 ## transform-toc
 
 Adds a table of contents to each page, after its first title: links to

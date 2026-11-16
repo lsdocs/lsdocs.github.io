@@ -20,6 +20,12 @@ builtin = "parser-rst"
 name = "sphinx"
 builtin = "sphinx-addons"
 
+# The Python packages' API, from their source (Phase 12c).
+[[plugins]]
+name = "python"
+builtin = "apidoc-python"
+options = { paths = ["../bindings/plugin/python/python/lsdocs_plugin", "../bindings/rst/python/python/lsdocs_rst"], primary = true, output = "api" }
+
 [[plugins]]
 name = "toc"
 builtin = "transform-toc"
