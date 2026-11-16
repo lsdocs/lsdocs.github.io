@@ -1,0 +1,37 @@
+# The lsdocs documentation, built with lsdocs: `nur docs` writes it to
+# docs/site. A test (crates/cli/tests/docs_site.rs) checks it builds
+# without warnings, so broken links fail the tests.
+
+[site]
+title = "lsdocs"
+
+[build]
+source_dir = "content"
+
+[[plugins]]
+name = "markdown"
+builtin = "parser-markdown"
+
+[[plugins]]
+name = "rst"
+builtin = "parser-rst"
+
+[[plugins]]
+name = "toc"
+builtin = "transform-toc"
+
+[[plugins]]
+name = "links"
+builtin = "transform-links"
+
+[[plugins]]
+name = "nav"
+builtin = "transform-nav"
+
+[[plugins]]
+name = "highlight"
+builtin = "transform-highlight"
+
+[[plugins]]
+name = "html"
+builtin = "render-html"
