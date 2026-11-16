@@ -30,7 +30,7 @@ impl Transformer for Shout {
         shout(&mut params.document.children);
         Ok(TransformApplyResult {
             document: params.document,
-            diagnostics: Vec::new(),
+            ..TransformApplyResult::default()
         })
     }
 }

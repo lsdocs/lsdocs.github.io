@@ -21,7 +21,7 @@ Parses `.rst` files with a port of docutils' parser and transforms (see
 
 | Option | Default | Meaning |
 |---|---|---|
-| `file_access` | `true` | Let `include`, `raw :file:` and `csv-table :file:` read files. While on, results are not cached, since they depend on other files. |
+| `file_access` | `true` | Let `include`, `raw :file:` and `csv-table :file:` read files. A page is parsed again when a file it read changes. |
 
 ## sphinx-addons
 
@@ -54,7 +54,7 @@ makes.
 
 | Option | Default | Meaning |
 |---|---|---|
-| `file_access` | `true` | Let `literalinclude` read files. While on, results are not cached. |
+| `file_access` | `true` | Let `literalinclude` read files. A page is transformed again when a file it read changes. |
 | `tags` | `[]` | Tags `only` expressions test, besides `html`. |
 | `todo_include_todos` | `false` | Show todos. |
 | `numfig` | `false` | Number figures, tables and code blocks with a caption, for `numref`. |
