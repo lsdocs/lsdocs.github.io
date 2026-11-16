@@ -116,6 +116,41 @@ It takes the other options of `apidoc-python` too (`private`,
 `doc_format`, `doc_style`, `primary`). This site's
 [TypeScript API](../api/typescript/index.md) is made by it.
 
+## apidoc-rust
+
+Documents Rust crates from rustdoc's JSON output: it runs `cargo rustdoc`
+for each crate with a nightly toolchain (the JSON output is unstable, so
+the plugin names one that writes the format it reads: install it with
+`rustup toolchain install nightly-2026-11-14`) and reads what rustdoc
+wrote. Types, paths and re-exports are rustdoc's, so they are exact;
+like `cargo doc`, it builds the crate's dependencies and runs its build
+scripts and procedural macros.
+
+A page per module (under `api/rs`) has each struct, enum, union, trait,
+function, macro, constant, static and type alias, with fields, variants,
+inherent methods, the traits a type implements and a trait's
+implementors. Doc comments are rustdoc's Markdown: its sections
+(`# Examples`, `# Panics`, `# Errors`, `# Safety`, `# Arguments`) are
+parts of the item, not sections of the page; intra-doc links
+(`` [`Point`] ``) become references to items the plugin documents, in
+any of its crates, and links to other crates' rustdoc pages (the
+standard library's, or docs.rs); code blocks are Rust, without their
+hidden `# ` lines. Items of private modules are documented where they
+are re-exported. It brings the `rs` domain (`rs:function`,
+`rs:struct`, `rs:trait`, ..., `rs:auto`; roles `rs:fn`, `rs:struct`,
+`rs:trait`, `rs:mod`, `rs:obj`, ...).
+
+| Option | Default | Meaning |
+|---|---|---|
+| `crates` | (required) | Crates, relative to the site directory: a crate's directory (or `Cargo.toml`), a JSON file rustdoc wrote, or `{ path, package, features, all_features, no_default_features }`. |
+| `toolchain` | `"nightly-2026-11-14"` | The toolchain cargo runs with (`cargo +<toolchain>`); `""` for cargo as found. |
+| `target_dir` | cargo's | Where cargo builds, relative to the site directory. |
+| `output` | `"api/rs"` | Where the pages go. |
+
+It takes the other options of `apidoc-python` too (`private` passes
+`--document-private-items`). This site's [Rust API](../api/rust/index.md)
+is made by it.
+
 ## transform-toc
 
 Adds a table of contents to each page, after its first title: links to

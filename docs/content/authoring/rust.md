@@ -6,7 +6,8 @@ nav_order: 1
 # Plugins in Rust
 
 The `lsdocs-plugin-sdk` crate has the traits, the document types and the
-protocol. Implement `Parser`, `Transformer` or `Renderer`, put them in a
+protocol (its API reference: [`lsdocs_plugin_sdk`](../api/rust/lsdocs_plugin_sdk.md),
+generated from its source). Implement `Parser`, `Transformer` or `Renderer`, put them in a
 `Plugin`, and hand it to `lsdocs_plugin_sdk::main`:
 
 ```rust
