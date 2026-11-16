@@ -28,6 +28,27 @@ Markdown is CommonMark with the common extensions:
 
 Raw HTML is passed through to the HTML output.
 
+## Directives and roles
+
+Directives and roles from plugins, such as Sphinx's from `sphinx-addons`,
+are written as MyST writes them. A directive is a fenced block whose
+language is `{name}`: the rest of the first line is its argument, then
+come its options, as `:name: value` lines or YAML between `---` lines,
+then its content:
+
+````md
+```{versionadded} 2.0
+:class: important
+
+The *new* option.
+```
+````
+
+A role is `{name}` right before inline code: `` {kbd}`Ctrl+C` ``,
+`` {ref}`the setup <setup>` ``. A plugin says which directives and roles
+it handles; a `{name}` fence no plugin handles is kept for plugins as a
+`custom` node, and an unknown role stays text and code.
+
 ## Front matter
 
 A Markdown page may start with YAML between `---` lines (or TOML between

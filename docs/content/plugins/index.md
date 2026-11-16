@@ -23,6 +23,45 @@ Parses `.rst` files with a port of docutils' parser and transforms (see
 |---|---|---|
 | `file_access` | `true` | Let `include`, `raw :file:` and `csv-table :file:` read files. While on, results are not cached, since they depend on other files. |
 
+## sphinx-addons
+
+The directives and roles Sphinx adds to docutils, in reStructuredText and
+in Markdown alike (as [MyST](../guide/writing.md#directives-and-roles)
+writes them). List it before the other transformers, which see what it
+makes.
+
+- **Code:** `code-block` (`:caption:`, `:name:`, `:linenos:`,
+  `:emphasize-lines:`, `:dedent:`), `literalinclude` (`:lines:`,
+  `:start-after:`, `:end-before:` and the rest; the language defaults to
+  the file's extension) and `highlight`.
+- **Notes:** `versionadded`, `versionchanged`, `deprecated`,
+  `versionremoved`, `seealso`, and `todo` / `todolist`.
+- **Content:** `only`, `centered`, `hlist`, `glossary`, `sectionauthor`,
+  `codeauthor`, `acks`, `tabularcolumns` (ignored), `index` (an anchor:
+  there is no index page yet) and `math` with `:label:`.
+- **Structure:** `toctree`, as a list of links to the pages it names and
+  their sections. It does not change the navigation yet.
+- **Roles:** `ref`, `doc` (to a page in any format), `numref`, `term`,
+  `eq`, `any`, `download`, and the inline roles `abbr`, `command`, `dfn`,
+  `file`, `guilabel`, `kbd`, `mailheader`, `makevar`, `manpage`,
+  `menuselection`, `mimetype`, `newsgroup`, `program`, `regexp`, `samp`
+  and `index`.
+
+| Option | Default | Meaning |
+|---|---|---|
+| `file_access` | `true` | Let `literalinclude` read files. While on, results are not cached. |
+| `tags` | `[]` | Tags `only` expressions test, besides `html`. |
+| `todo_include_todos` | `false` | Show todos. |
+| `numfig` | `false` | Number figures, tables and code blocks with a caption, for `numref`. |
+| `numfig_format` | Sphinx's | `{ figure = "Fig. %s", table = "Table %s", code-block = "Listing %s" }` |
+| `math_number_all` | `false` | Number every `math` directive. |
+| `highlight_language` | none | The language of code blocks that name none. |
+| `show_authors` | `false` | Show `sectionauthor` and `codeauthor`. |
+| `manpages_url` | none | Where `manpage` links: `"https://man.example/{page}.{section}"`. |
+| `extlinks` | `{}` | Roles that make links: `{ issue = { url = "https://github.com/o/r/issues/%s", caption = "#%s" } }`. |
+
+Domains (`py:function` and the like) are not supported yet.
+
 ## transform-toc
 
 Adds a table of contents to each page, after its first title: links to

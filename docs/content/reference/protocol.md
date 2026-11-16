@@ -46,3 +46,4 @@ changes only add fields and features older peers can ignore.
 | `render.site` | Whether it wants `render/site`. |
 | `max_concurrency` | How many requests it handles at once. |
 | `cache` | That its results may be cached, and a key for any other input. |
+| `syntax` | The directives and roles it handles. lsdocs passes them to parsers, which make `custom` nodes of them for the plugin (see "Syntax extensions" in the specification). |

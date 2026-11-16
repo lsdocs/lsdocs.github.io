@@ -54,6 +54,23 @@ from. The JSON Schema is `schema/doctree/document.json` in the repository.
 plugin-defined content, such as diagrams, that other plugins turn into core
 nodes or render. Transformers select them as `custom:<kind>`.
 
+Parsers make some by convention:
+
+- A directive (`.. name::` in reStructuredText, a ```` ```{name} ````
+  fence in Markdown) is a `custom` node of its name, with the attributes
+  `argument`, `options` and `content`. For directives a plugin declares,
+  content that is markup is parsed into the children instead, and an
+  argument that is markup is parsed into a first child of kind
+  `directive_argument`.
+- A role a plugin declares (`` :name:`text` ``, or `` {name}`text` `` in
+  Markdown) is a `custom` node of kind `role` with the attributes `name`
+  and `text`, and the text as its child.
+
+Renderers draw a `custom` node they don't know as a block holding its
+children, or, if its attribute `inline` is `true`, as an inline element
+(`render-html` uses a `span`, or the element `html_tag` names, with
+`title` as its title).
+
 ## Links between documents
 
 A `link` may carry a `target`, saying where in the site it points:

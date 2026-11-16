@@ -34,7 +34,8 @@ section, and labels name any place:
 
    See install-step_ or `the step <install-step_>`_.
 
-Two roles from Sphinx link across the site:
+With the ``sphinx-addons`` plugin (see `Built-in plugins
+<../plugins/index.md>`_), Sphinx's roles link across the site:
 
 ``:ref:`label```
    Links to the label ``label`` on any page, and shows the title of the
@@ -42,9 +43,9 @@ Two roles from Sphinx link across the site:
    yourself with ``:ref:`text <label>```.
 
 ``:doc:`path```
-   Links to another reStructuredText page, given without its extension,
-   relative to this page (or to the source directory with a leading
-   ``/``).
+   Links to another page, given without its extension, relative to this
+   page (or to the source directory with a leading ``/``), whatever its
+   format: :doc:`writing` is the page about Markdown.
 
 Labels become ids as docutils makes them: ``My Label`` is ``my-label``.
 
