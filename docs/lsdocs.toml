@@ -24,7 +24,12 @@ builtin = "sphinx-addons"
 [[plugins]]
 name = "python"
 builtin = "apidoc-python"
-options = { paths = ["../bindings/plugin/python/python/lsdocs_plugin", "../bindings/rst/python/python/lsdocs_rst"], primary = true, output = "api" }
+options = { paths = ["../bindings/plugin/python/python/lsdocs_plugin", "../bindings/rst/python/python/lsdocs_rst"], primary = true, output = "api/python" }
+
+[[plugins]]
+name = "typescript"
+builtin = "apidoc-typescript"
+options = { paths = [{ path = "../bindings/plugin/node/index.d.ts", module = "@lsdocs/plugin" }, { path = "../bindings/rst/node/index.d.ts", module = "@lsdocs/rst" }], output = "api/typescript" }
 
 [[plugins]]
 name = "toc"

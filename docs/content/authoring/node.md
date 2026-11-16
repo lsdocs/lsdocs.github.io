@@ -6,7 +6,8 @@ nav_order: 3
 # Plugins in JavaScript
 
 The `@lsdocs/plugin` package defines a plugin from an object with a handler
-per phase. Types for every param, result and node are included, for
+per phase (its API reference: [`@lsdocs/plugin`](../api/typescript/@lsdocs/plugin.md),
+generated from its type declarations). Types for every param, result and node are included, for
 TypeScript or type-checked JavaScript:
 
 ```js

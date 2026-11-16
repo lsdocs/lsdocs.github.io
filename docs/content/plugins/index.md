@@ -93,7 +93,28 @@ pkg.name` places a generated one in a page, and `` :py:func:`name` ``
 | `doc_style` | `"auto"` | Docstring sections: `auto`, `plain`, `google`, `numpy`, `sphinx`, `tags`. |
 | `primary` | `false` | Also take the roles without `py:` (`:func:`), as Sphinx's `primary_domain`. |
 
-This site's [Python API](../api/index.md) is made by it.
+This site's [Python API](../api/python/index.md) is made by it.
+
+## apidoc-typescript
+
+Documents TypeScript and JavaScript from their source (`.ts`, `.tsx`,
+`.d.ts`, `.js`, ...), types as written, without the type checker: what
+each module exports (functions, classes, interfaces, type aliases, enums,
+constants, namespaces), with TSDoc / JSDoc comments (Markdown, `@param`,
+`@returns`, `@throws`, `@example`, `@deprecated`; `{@link Name}` links).
+Members marked `private`, `#private` or `@internal` are left out. It
+brings the `js` domain (`js:function`, `js:class`, `js:interface`,
+`js:type`, ..., `js:auto`; roles `js:func`, `js:class`, `js:type`,
+`js:obj`, ...).
+
+| Option | Default | Meaning |
+|---|---|---|
+| `paths` | (required) | Files and directories, relative to the site directory; `{ path = "src/index.ts", module = "my-package" }` names a module. |
+| `output` | `"api/js"` | Where the pages go. |
+
+It takes the other options of `apidoc-python` too (`private`,
+`doc_format`, `doc_style`, `primary`). This site's
+[TypeScript API](../api/typescript/index.md) is made by it.
 
 ## transform-toc
 
