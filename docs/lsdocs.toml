@@ -39,6 +39,17 @@ name = "rust"
 builtin = "apidoc-rust"
 options = { crates = ["../crates/plugin-sdk", "../crates/protocol", "../crates/doctree"], output = "api/rust", target_dir = "../target/lsdocs-rustdoc" }
 
+# A sample C and C++ library (examples/clang-sample), with libclang.
+[[plugins]]
+name = "c"
+builtin = "apidoc-c"
+options = { paths = [{ path = "../examples/clang-sample/include/geo/vec.h", module = "geo/vec" }], output = "api/c" }
+
+[[plugins]]
+name = "cpp"
+builtin = "apidoc-cpp"
+options = { paths = [{ path = "../examples/clang-sample/include/geo/shapes.hpp", module = "geo/shapes" }], output = "api/cpp" }
+
 [[plugins]]
 name = "toc"
 builtin = "transform-toc"

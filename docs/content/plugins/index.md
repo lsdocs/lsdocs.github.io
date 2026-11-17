@@ -151,6 +151,59 @@ It takes the other options of `apidoc-python` too (`private` passes
 `--document-private-items`). This site's [Rust API](../api/rust/index.md)
 is made by it.
 
+## apidoc-c and apidoc-cpp
+
+Document C and C++ from their headers with libclang, which parses them as
+a compiler would: types and templates are clang's, nothing is compiled.
+libclang (10 or later) is loaded when the plugin runs, so it must be
+installed: see [Installing libclang](#installing-libclang).
+
+Each header is a module (a page, under `api/c` or `api/cpp`), with what it
+declares itself: namespaces (pages of their own), classes, structs and
+unions with their fields, methods and constructors, enums, functions and
+templates, variables and constants, typedefs and aliases (a typedef of an
+anonymous struct is that struct) and macros. Overloads are one item with
+each signature. Private and protected members are left out, as are
+`detail` namespaces and comments tagged `@internal`.
+
+Doc comments are Doxygen's (`/** */`, `///`, `//!`, `///<`), in
+Markdown: `@param` / `\param`, `@return`, `@throws`, `@tparam`,
+`@deprecated`, `@note` and the like become sections, `\code` blocks code,
+`\c`, `\p`, `\b` and `\e` markup, and `\ref name` and `#name`
+references. A header's `@file` comment documents its page; an override
+without a comment shows the overridden method's.
+
+They bring Sphinx's `c` and `cpp` domains: `c:function`, `c:struct`,
+`c:member`, `c:macro`, `c:type`, ... and `cpp:class`, `cpp:function`,
+`cpp:member`, `cpp:type`, `cpp:enum`, ..., with `auto`; roles `c:func`,
+`c:struct`, `c:macro`, ..., `cpp:class`, `cpp:func`, `cpp:member`,
+`cpp:any`, ....
+
+| Option | Default | Meaning |
+|---|---|---|
+| `paths` | (required) | Headers and directories, relative to the site directory; a directory is also an include directory. `{ path = "include/lib.h", module = "lib" }` names a module. |
+| `args` | `[]` | Compiler arguments, after `-x c -std=c17` or `-x c++ -std=c++20`: `["-Ithird_party", "-DLIB_API=", "-std=c++17"]`. |
+| `output` | `"api/c"`, `"api/cpp"` | Where the pages go. |
+
+They take the other options of `apidoc-python` too (`private`,
+`doc_format`, `doc_style`, `primary`). This site's [C](../api/c/index.md)
+and [C++](../api/cpp/index.md) samples are made by them.
+
+### Installing libclang
+
+| System | Command |
+|---|---|
+| Windows | `winget install LLVM.LLVM` |
+| macOS | `xcode-select --install` (the Command Line Tools have it), or `brew install llvm` |
+| Debian, Ubuntu | `sudo apt install libclang-dev` |
+| Fedora | `sudo dnf install clang-devel` |
+| Arch | `sudo pacman -S clang` |
+
+lsdocs looks for it where these put it, and through `llvm-config`. If it
+is elsewhere (Homebrew's `llvm` is not linked into the usual places), set
+`LIBCLANG_PATH` to the directory holding it:
+`LIBCLANG_PATH="$(brew --prefix llvm)/lib"`.
+
 ## transform-toc
 
 Adds a table of contents to each page, after its first title: links to
