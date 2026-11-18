@@ -1,0 +1,6 @@
+# The Rust plugin SDK and the crates it re-exports, from rustdoc's JSON.
+# Its own target directory, so it neither waits for nor disturbs other
+# cargo builds.
+crates = ["../crates/plugin-sdk", "../crates/protocol", "../crates/doctree"]
+output = "api/rust"
+target_dir = "../target/lsdocs-rustdoc"

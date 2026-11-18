@@ -1,6 +1,7 @@
 # The lsdocs documentation, built with lsdocs: `nur docs` writes it to
 # docs/site. A test (crates/cli/tests/docs_site.rs) checks it builds
-# without warnings, so broken links fail the tests.
+# without warnings, so broken links fail the tests. Each plugin's
+# settings are in .config/lsdocs/<name>/settings.toml.
 
 [site]
 title = "lsdocs"
@@ -24,31 +25,25 @@ builtin = "sphinx-addons"
 [[plugins]]
 name = "python"
 builtin = "apidoc-python"
-options = { paths = ["../bindings/plugin/python/python/lsdocs_plugin", "../bindings/rst/python/python/lsdocs_rst"], primary = true, output = "api/python" }
 
 [[plugins]]
 name = "typescript"
 builtin = "apidoc-typescript"
-options = { paths = [{ path = "../bindings/plugin/node/index.d.ts", module = "@lsdocs/plugin" }, { path = "../bindings/rst/node/index.d.ts", module = "@lsdocs/rst" }], output = "api/typescript" }
 
 # The Rust plugin SDK and the crates it re-exports, from rustdoc's JSON
-# (a nightly toolchain: the plugin's default). Its own target directory,
-# so it neither waits for nor disturbs other cargo builds.
+# (a nightly toolchain: the plugin's default).
 [[plugins]]
 name = "rust"
 builtin = "apidoc-rust"
-options = { crates = ["../crates/plugin-sdk", "../crates/protocol", "../crates/doctree"], output = "api/rust", target_dir = "../target/lsdocs-rustdoc" }
 
 # A sample C and C++ library (examples/clang-sample), with libclang.
 [[plugins]]
 name = "c"
 builtin = "apidoc-c"
-options = { paths = [{ path = "../examples/clang-sample/include/geo/vec.h", module = "geo/vec" }], output = "api/c" }
 
 [[plugins]]
 name = "cpp"
 builtin = "apidoc-cpp"
-options = { paths = [{ path = "../examples/clang-sample/include/geo/shapes.hpp", module = "geo/shapes" }], output = "api/cpp" }
 
 [[plugins]]
 name = "toc"
