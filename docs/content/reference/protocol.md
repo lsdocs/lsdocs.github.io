@@ -26,11 +26,12 @@ changes only add fields and features older peers can ignore.
 | `initialize` | lsdocs | Starts the session: site settings and options in, protocol version and capabilities out. |
 | `initialized` | lsdocs | Notification: phase requests follow. |
 | `parse` | lsdocs | A file's path and text in, a document out. |
-| `transform/collect` | lsdocs | A document in, any collected data out. |
-| `transform/collected` | lsdocs | Everything collected, once, before the apply pass; documents the plugin generates from it out. |
-| `transform/apply` | lsdocs | A document in, the transformed document out. |
+| `parse/transform/each` | lsdocs | A document in, any data read from it out; the document is not changed. |
+| `parse/transform/all` | lsdocs | Everything read, once, before any document is changed; documents the plugin generates from it out. |
+| `render/transform/each` | lsdocs | A document in, the transformed document out. |
 | `render` | lsdocs | A document in, the output bytes out. |
-| `render/site` | lsdocs | The rendered pages in, extra files out. |
+| `render/transform/all` | lsdocs | The rendered pages in, files no single page makes out (a sitemap). |
+| `host/parse` | plugin | Text and a file extension in, the document lsdocs' parser for it makes out. |
 | `shutdown`, `exit` | lsdocs | Ends the session. |
 | `log`, `progress`, `diagnostics` | plugin | Notifications at any time. |
 | `$/cancel` | either | Cancels a request. |
@@ -41,9 +42,9 @@ changes only add fields and features older peers can ignore.
 |---|---|
 | `parse.extensions` | The file extensions the plugin parses. |
 | `transform.nodes` | The node kinds it looks at; documents without any are not sent. |
-| `transform.collect` | Whether it takes part in the collect pass. |
+| `transform.each` | Whether it wants `parse/transform/each` (and `parse/transform/all`). |
 | `render.formats` | The output formats it writes. |
-| `render.site` | Whether it wants `render/site`. |
+| `render.all` | Whether it wants `render/transform/all`. |
 | `max_concurrency` | How many requests it handles at once. |
 | `cache` | That its results may be cached, and a key for any other input. |
 | `syntax` | The directives and roles it handles. lsdocs passes them to parsers, which make `custom` nodes of them for the plugin (see "Syntax extensions" in the specification). |

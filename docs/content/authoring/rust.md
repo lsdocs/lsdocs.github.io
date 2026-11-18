@@ -12,7 +12,7 @@ generated from its source). Implement `Parser`, `Transformer` or `Renderer`, put
 
 ```rust
 use lsdocs_plugin_sdk::doctree::Node;
-use lsdocs_plugin_sdk::protocol::{TransformApplyParams, TransformApplyResult};
+use lsdocs_plugin_sdk::protocol::{RenderTransformEachParams, RenderTransformEachResult};
 use lsdocs_plugin_sdk::{Context, Plugin, PluginResult, Transformer};
 
 /// Upper-cases every text node.
@@ -25,13 +25,13 @@ impl Transformer for Shout {
 
     async fn apply(
         &self,
-        mut params: TransformApplyParams,
+        mut params: RenderTransformEachParams,
         _ctx: &Context,
-    ) -> PluginResult<TransformApplyResult> {
+    ) -> PluginResult<RenderTransformEachResult> {
         shout(&mut params.document.children);
-        Ok(TransformApplyResult {
+        Ok(RenderTransformEachResult {
             document: params.document,
-            ..TransformApplyResult::default()
+            ..RenderTransformEachResult::default()
         })
     }
 }
@@ -68,12 +68,15 @@ command = ["target/release/shout"]
   which gets the file's `source` path and `text` and returns a
   `ParseResult` (the document and diagnostics).
 - `Transformer`: `nodes()` (node kinds to select; empty for every
-  document) and `apply`. Set `const COLLECTS: bool = true` and implement
-  `collect` to gather data first: `apply` then finds a map from each
-  document's source to what was collected in `params.collected`.
+  document) and `apply` (`render/transform/each`). Set `const READS:
+  bool = true` and implement `read` (`parse/transform/each`) to gather
+  data first: `apply` then finds a map from each document's source to
+  what was read in `params.collected`. `conclude`
+  (`parse/transform/all`) sees all of it once and may add documents.
 - `Renderer`: `formats()` and `render`, returning the output bytes and
-  their file extension. Set `const SITE: bool = true` and implement
-  `render_site` to add site-wide files.
+  their file extension. Set `const RENDERS_ALL: bool = true` and
+  implement `render_all` (`render/transform/all`) to add files no single
+  page makes, such as a sitemap.
 
 The `Context` gives the site (`ctx.site()`) and the plugin's options
 (`ctx.options()`), and sends logs (`ctx.info(...)`), progress and

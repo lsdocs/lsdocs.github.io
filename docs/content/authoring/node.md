@@ -49,9 +49,9 @@ Node.js).
 
 ## Handlers
 
-The definition may have `parse` (`{ extensions, handler }`), `collect`,
+The definition may have `parse` (`{ extensions, handler }`), `read`,
 `transform` (a handler, or `{ nodes, handler }`), `render`
-(`{ formats, handler }`) and `renderSite`. Handlers may be `async`, and
+(`{ formats, handler }`) and `renderAll`. Handlers may be `async`, and
 may return just the document (or, for `render`, a string or bytes).
 `maxConcurrency` lets several requests run at once. The context has
 `ctx.site` and `ctx.options`, and `ctx.log`, `ctx.progress` and

@@ -51,10 +51,10 @@ lsdocs runs it as `python -m shout` in the site directory (set
 | Decorator | Handles |
 |---|---|
 | `@plugin.parse(extensions=["txt"])` | Parsing; return the document, or `{"document", "diagnostics"}`. |
-| `@plugin.collect` | The collect pass; return any value. |
-| `@plugin.transform(nodes=[...])` | The apply pass; `params["collected"]` has what was collected. Return the document. |
+| `@plugin.read` | `parse/transform/each`: reads each document; return any value. |
+| `@plugin.transform(nodes=[...])` | `render/transform/each`: changes each document; `params["collected"]` has what `read` returned for every document. Return the document. |
 | `@plugin.render(formats=["html"])` | Rendering; return a `str` or `bytes`. |
-| `@plugin.render_site` | Site-wide files; return a list of `{"path", "output"}`. |
+| `@plugin.render_all` | Files no single page makes (`render/transform/all`); return a list of `{"path", "output"}`. |
 
 Handlers may be `async def`; coroutines share one event loop. Handlers run
 one at a time unless `Plugin("x", "1.0", max_concurrency=8)` lets more
