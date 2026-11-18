@@ -8,6 +8,12 @@ nav_order: 2
 These plugins ship with lsdocs and run inside it. Add one with
 `builtin = "<name>"`; `lsdocs init` adds them all, in this order.
 
+Each reads its settings from `.config/lsdocs/<name>/settings.toml` next
+to `lsdocs.toml`, `<name>` being its `name` there (so two instances keep
+separate settings): the tables below list the keys. A missing file means
+the defaults; an unknown key is an error. parser-rst reads docutils' own
+`docutils.conf` instead. See [Configuration](../guide/configuration.md#plugin-settings).
+
 ## parser-markdown
 
 Parses `.md` and `.markdown` files: CommonMark with tables, task lists,
@@ -19,9 +25,20 @@ TOML front matter (see [Writing pages](../guide/writing.md)).
 Parses `.rst` files with a port of docutils' parser and transforms (see
 [reStructuredText](../guide/restructuredtext.rst)).
 
-| Option | Default | Meaning |
-|---|---|---|
-| `file_access` | `true` | Let `include`, `raw :file:` and `csv-table :file:` read files. A page is parsed again when a file it read changes. |
+Its settings are docutils' own, in `.config/lsdocs/<name>/docutils.conf`
+(docutils' INI format), so an existing `docutils.conf` works as it is:
+the `[general]`, `[parsers]` and `[restructuredtext parser]` sections'
+settings it implements (`tab_width`, `raw_enabled`, `pep_references`,
+`rfc_references`, `id_prefix`, ...), and `file_insertion_enabled` (on by
+default: let `include`, `raw :file:` and `csv-table :file:` read files;
+a page is parsed again when a file it read changes). Other sections are
+skipped; docutils settings it does not implement are a warning.
+
+```ini
+[restructuredtext parser]
+pep_references: yes
+file_insertion_enabled: no
+```
 
 ## sphinx-addons
 
@@ -52,7 +69,7 @@ makes.
   `menuselection`, `mimetype`, `newsgroup`, `program`, `regexp`, `samp`
   and `index`.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `file_access` | `true` | Let `literalinclude` read files. A page is transformed again when a file it read changes. |
 | `tags` | `[]` | Tags `only` expressions test, besides `html`. |
@@ -84,7 +101,7 @@ It also brings the `py` domain, in reStructuredText and Markdown alike:
 pkg.name` places a generated one in a page, and `` :py:func:`name` ``
 (`py:class`, `py:meth`, `py:attr`, `py:mod`, `py:obj`, ...) links to one.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `paths` | (required) | Packages (directories) and modules (`.py`, `.pyi`) to document, relative to the site directory. |
 | `output` | `"api/py"` | Where the pages go, under the source directory. |
@@ -107,12 +124,12 @@ brings the `js` domain (`js:function`, `js:class`, `js:interface`,
 `js:type`, ..., `js:auto`; roles `js:func`, `js:class`, `js:type`,
 `js:obj`, ...).
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `paths` | (required) | Files and directories, relative to the site directory; `{ path = "src/index.ts", module = "my-package" }` names a module. |
 | `output` | `"api/js"` | Where the pages go. |
 
-It takes the other options of `apidoc-python` too (`private`,
+It takes the other settings of `apidoc-python` too (`private`,
 `doc_format`, `doc_style`, `primary`). This site's
 [TypeScript API](../api/typescript/index.md) is made by it.
 
@@ -140,14 +157,14 @@ are re-exported. It brings the `rs` domain (`rs:function`,
 `rs:struct`, `rs:trait`, ..., `rs:auto`; roles `rs:fn`, `rs:struct`,
 `rs:trait`, `rs:mod`, `rs:obj`, ...).
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `crates` | (required) | Crates, relative to the site directory: a crate's directory (or `Cargo.toml`), a JSON file rustdoc wrote, or `{ path, package, features, all_features, no_default_features }`. |
 | `toolchain` | `"nightly-2026-11-14"` | The toolchain cargo runs with (`cargo +<toolchain>`); `""` for cargo as found. |
 | `target_dir` | cargo's | Where cargo builds, relative to the site directory. |
 | `output` | `"api/rs"` | Where the pages go. |
 
-It takes the other options of `apidoc-python` too (`private` passes
+It takes the other settings of `apidoc-python` too (`private` passes
 `--document-private-items`). This site's [Rust API](../api/rust/index.md)
 is made by it.
 
@@ -179,13 +196,13 @@ They bring Sphinx's `c` and `cpp` domains: `c:function`, `c:struct`,
 `c:struct`, `c:macro`, ..., `cpp:class`, `cpp:func`, `cpp:member`,
 `cpp:any`, ....
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `paths` | (required) | Headers and directories, relative to the site directory; a directory is also an include directory. `{ path = "include/lib.h", module = "lib" }` names a module. |
 | `args` | `[]` | Compiler arguments, after `-x c -std=c17` or `-x c++ -std=c++20`: `["-Ithird_party", "-DLIB_API=", "-std=c++17"]`. |
 | `output` | `"api/c"`, `"api/cpp"` | Where the pages go. |
 
-They take the other options of `apidoc-python` too (`private`,
+They take the other settings of `apidoc-python` too (`private`,
 `doc_format`, `doc_style`, `primary`). This site's [C](../api/c/index.md)
 and [C++](../api/cpp/index.md) samples are made by them.
 
@@ -209,7 +226,7 @@ is elsewhere (Homebrew's `llvm` is not linked into the usual places), set
 Adds a table of contents to each page, after its first title: links to
 the page's sections.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `depth` | `3` | The deepest heading level listed. |
 
@@ -218,7 +235,7 @@ the page's sections.
 Checks links between pages, resolves `:ref:` labels, fills in the text of
 empty links, and can list the pages linking to each page.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `check` | `true` | Report links to missing files and anchors. |
 | `backlinks` | `false` | Add a list of the pages linking here to each page. |
@@ -240,7 +257,7 @@ directories.
 Highlights code blocks whose language it knows, by name or file extension
 (`rust`, `rs`, `toml`, ...), with CSS classes the theme colors.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `languages` | all | The languages to highlight. |
 | `aliases` | none | Extra names for known languages: `{ jsonc = "json" }`. |
@@ -250,7 +267,7 @@ Highlights code blocks whose language it knows, by name or file extension
 Writes each page as HTML in a page template, and `sitemap.xml` when the
 site has an absolute `base_url`.
 
-| Option | Default | Meaning |
+| Setting | Default | Meaning |
 |---|---|---|
 | `template` | built-in theme | A [minijinja](https://docs.rs/minijinja) page template, relative to the site directory. |
 | `heading_anchors` | `true` | Add a `#` link to each heading with an id. |

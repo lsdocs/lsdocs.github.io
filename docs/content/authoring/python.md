@@ -58,8 +58,27 @@ lsdocs runs it as `python -m shout` in the site directory (set
 
 Handlers may be `async def`; coroutines share one event loop. Handlers run
 one at a time unless `Plugin("x", "1.0", max_concurrency=8)` lets more
-overlap. The context has `ctx.site` and `ctx.options`, and sends logs,
-progress and diagnostics.
+overlap. The context has `ctx.site`, and sends logs, progress and
+diagnostics.
+
+A plugin's settings are files it reads from the site's `.config/`
+directory: name them with `config_files`, `{name}` standing for the
+plugin's name in `lsdocs.toml`. They are read when the session starts;
+`ctx.settings` maps each to its text (None if missing), for the plugin to
+parse, and `ctx.config` has `dir` and `name`:
+
+```python
+import tomllib
+
+SETTINGS = "acme/{name}/settings.toml"
+plugin = Plugin("shout", "0.1.0", config_files=[SETTINGS])
+
+@plugin.read
+def read(params, ctx):
+    text = ctx.settings[SETTINGS.format(name=ctx.config["name"])]
+    settings = tomllib.loads(text) if text else {}
+    ...
+```
 
 ## Testing
 

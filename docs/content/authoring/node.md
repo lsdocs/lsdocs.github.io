@@ -54,8 +54,14 @@ The definition may have `parse` (`{ extensions, handler }`), `read`,
 (`{ formats, handler }`) and `renderAll`. Handlers may be `async`, and
 may return just the document (or, for `render`, a string or bytes).
 `maxConcurrency` lets several requests run at once. The context has
-`ctx.site` and `ctx.options`, and `ctx.log`, `ctx.progress` and
+`ctx.site`, `ctx.config` and `ctx.settings`, and `ctx.log`, `ctx.progress` and
 `ctx.diagnostic`.
+
+`configFiles: ['acme/{name}/settings.toml']` names the files the plugin
+reads its settings from, under the site's `.config/` (`{name}` is its
+name in `lsdocs.toml`); they are read when the session starts, and
+`ctx.settings` maps each to its text (null if missing), for the plugin to
+parse.
 
 ## Testing
 

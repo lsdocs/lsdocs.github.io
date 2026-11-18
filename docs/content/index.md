@@ -17,7 +17,7 @@ Python, JavaScript, or any language that can read and write MessagePack.
 - [Writing pages](guide/writing.md): what Markdown and reStructuredText
   give you.
 - [Built-in plugins](plugins/index.md): the plugins that ship with lsdocs
-  and their options.
+  and their settings.
 - [Writing plugins](authoring/index.md): how a build works and how to add
   to it, with guides for [Rust](authoring/rust.md),
   [Python](authoring/python.md), [JavaScript](authoring/node.md) and

@@ -24,7 +24,14 @@ builtin = "parser-markdown"
 [[plugins]]
 name = "html"
 builtin = "render-html"
-options = { heading_anchors = false }
+```
+
+with the plugins' settings in files of their own beside it (see
+[Plugin settings](#plugin-settings)):
+
+```toml
+# .config/lsdocs/html/settings.toml
+heading_anchors = false
 ```
 
 ## `[site]`
@@ -60,8 +67,27 @@ the first renderer renders the site.
 | `runtime` | `"python"` with `module` (run as `python -m <module>`), or `"node"` with `entry` (run as `node <entry>`). |
 | `transport` | `"stdio"` (the default) or `"pipe"`, for plugins run as programs. |
 | `files` | Glob patterns limiting which source files the plugin handles, relative to the source directory: `["api/**"]`. |
-| `options` | Anything the plugin accepts, passed to it when it starts. |
 
 Each entry has exactly one of `builtin`, `command` and `runtime`. Plugins
 run as programs start in the site directory. `LSDOCS_PYTHON` and
 `LSDOCS_NODE` name the interpreters for the `python` and `node` runtimes.
+
+## Plugin settings
+
+A plugin's settings are not in `lsdocs.toml`: each plugin reads its own
+files from the `.config/` directory next to it (or in the working
+directory, without a config file), in whatever format it chooses. lsdocs'
+own plugins read `.config/lsdocs/<name>/settings.toml`, `<name>` being
+the plugin's `name` above, so two instances of one plugin keep separate
+settings:
+
+```toml
+# .config/lsdocs/toc/settings.toml
+depth = 2
+```
+
+parser-rst reads docutils' `docutils.conf` there instead (see
+[Built-in plugins](../plugins/index.md#parser-rst)). Plugins read their
+settings when they start; a change to a settings file is a change of
+settings (cached results are not reused, and `lsdocs serve` restarts the
+plugins). Paths in settings are relative to the site directory.

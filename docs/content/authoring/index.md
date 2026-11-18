@@ -59,8 +59,13 @@ Every result may carry diagnostics: a severity (`error` fails the build,
 source file and a byte span in it). Report problems with the content this
 way; fail the request only when the plugin itself cannot go on.
 
-## Options
+## Settings
 
-A plugin's `options` in `lsdocs.toml` reach it when it starts, with the
-site's title, base URL, directories and file list. Read paths in options
-relative to the site directory (`site.root`), not the working directory.
+A plugin reads its own settings, from files under the site's `.config/`
+directory, in any format: lsdocs tells it where that directory is and
+the plugin's name in `lsdocs.toml` when it starts (with the site's
+title, base URL, directories and file list), and the plugin says which
+files it read, so lsdocs can tell when they change. The recommended
+layout is `.config/<vendor>/<name>/`, as lsdocs' own plugins use
+`.config/lsdocs/<name>/settings.toml`. Read paths in settings relative to
+the site directory (`site.root`), not the working directory.

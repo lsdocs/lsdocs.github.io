@@ -78,13 +78,28 @@ command = ["target/release/shout"]
   implement `render_all` (`render/transform/all`) to add files no single
   page makes, such as a sitemap.
 
-The `Context` gives the site (`ctx.site()`) and the plugin's options
-(`ctx.options()`), and sends logs (`ctx.info(...)`), progress and
-diagnostics to lsdocs while a request runs.
+The `Context` gives the site (`ctx.site()`), where settings are
+(`ctx.config()`: the `.config/` directory and the plugin's name) and the
+plugin's settings (`ctx.settings()`), and sends logs (`ctx.info(...)`),
+progress and diagnostics to lsdocs while a request runs.
+
+Settings are read once, when the session starts, by a loader the plugin
+registers with `Plugin::settings`; it returns them with the files it read.
+`lsdocs_plugin_sdk::config` has loaders for TOML:
+
+```rust
+use lsdocs_plugin_sdk::config;
+
+// `.config/acme/<name>/settings.toml`, any keys:
+Plugin::new("shout", "0.1.0")
+    .settings(|c| config::toml_file(c, &format!("acme/{}/settings.toml", c.name)))
+// lsdocs' layout (`lsdocs/<name>/settings.toml`), only these keys:
+//  .settings(|c| config::settings_toml_keys(c, &["depth"]))
+```
 
 `Plugin::cacheable()` lets lsdocs cache results that depend only on the
-request, the site settings and the options; `cache_key` covers other
-inputs, such as a template file.
+request, the site settings and the plugin's settings files; `cache_key`
+covers other inputs, such as a template file.
 
 ## Testing
 

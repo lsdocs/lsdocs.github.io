@@ -23,7 +23,7 @@ changes only add fields and features older peers can ignore.
 
 | Method | From | Purpose |
 |---|---|---|
-| `initialize` | lsdocs | Starts the session: site settings and options in, protocol version and capabilities out. |
+| `initialize` | lsdocs | Starts the session: the site and where its `.config/` is in; protocol version, capabilities and the settings files read out. |
 | `initialized` | lsdocs | Notification: phase requests follow. |
 | `parse` | lsdocs | A file's path and text in, a document out. |
 | `parse/transform/each` | lsdocs | A document in, any data read from it out; the document is not changed. |
