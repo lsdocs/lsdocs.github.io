@@ -300,7 +300,7 @@ contents as a drop-down menu.
 | `extra_css`, `extra_js` | `[]` | Stylesheets and scripts added to every page: paths from the site root, or URLs. |
 | `social` | `[]` | Links in the footer: `{ icon = "mail", link = "mailto:..." }`; `icon` is `link`, `mail`, `rss`, `chat` or `code`, else an image's path or URL. |
 | `footer` | `""` | The footer's text (HTML). |
-| `edit_url` | `""` | An edit-this-page link: a URL with `{path}` for the page's source path, `"https://example.com/repo/edit/main/docs/{path}"`. |
+| `edit_url` | `""` | An edit-this-page link: a URL with `{path}` for the page's source path, `"https://example.com/repo/edit/main/docs/{path}"`. Generated pages (`generated` metadata) get none. |
 
 Its stylesheets use cascade layers, so a stylesheet in `extra_css`
 overrides them without having to out-specify them; its colors,

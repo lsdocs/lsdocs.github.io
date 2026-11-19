@@ -65,7 +65,10 @@ read:
 | `nav_children` | The pages below this one in the navigation, in order (source paths, relative to the page or, with a leading `/`, to the source directory). On the root `index` page, it makes the navigation follow these lists instead of the directories. |
 | `sitemap` | `false` leaves the page out of the sitemap. |
 
-Every key is available to page templates as `page.metadata`.
+Every key is available to page templates as `page.metadata`. The host
+sets `generated: true` on pages a plugin generates (API pages, the
+index), which have no source file; the default theme gives them no
+edit link.
 
 ## Sections and ids
 
