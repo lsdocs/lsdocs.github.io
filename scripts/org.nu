@@ -33,16 +33,38 @@ def dependency-rows [manifest: record]: nothing -> list<record> {
     } | flatten
 }
 
+# Whether `path` (a path dependency, relative to the manifest's directory
+# `dir`, itself relative to the repository root) stays inside the
+# repository.
+def inside-repo [path: string, dir: string]: nothing -> bool {
+    let p = $path | str replace --all '\' '/'
+    if ($p | str starts-with "/") or ($p =~ '^[A-Za-z]:') { return false }
+    mut depth = 0
+    for part in ($"($dir)/($p)" | split row "/" | where {|s| $s != "" and $s != "." }) {
+        $depth = if $part == ".." { $depth - 1 } else { $depth + 1 }
+        if $depth < 0 { return false }
+    }
+    true
+}
+
 # Checks that every `lsdocs-*` dependency of `manifest` (a parsed
-# `Cargo.toml`) is a path dependency inside the repository, inherited from
-# the workspace, or a git dependency on the organization repository that
-# holds that crate (`org`: repository name -> list of crate names).
-# Returns error messages.
-export def check-git-deps [manifest: record, org: record]: nothing -> list<string> {
-    dependency-rows $manifest | where {|r| $r.name | str starts-with "lsdocs" } | each {|r|
+# `Cargo.toml` in the directory `dir`, relative to the repository root) is
+# a path dependency inside the repository, inherited from the workspace,
+# or a git dependency on the organization repository that holds that crate
+# (`org`: repository name -> list of crate names), and that the manifest
+# has no `[patch]` table (local patches belong in the untracked
+# .cargo/config.toml). Returns error messages.
+export def check-git-deps [manifest: record, org: record, --dir: string = "."]: nothing -> list<string> {
+    let patch = if ($manifest | get -o patch) != null {
+        ["a committed [patch] table: use `nur link` (untracked .cargo/config.toml) instead"]
+    } else { [] }
+    $patch | append (dependency-rows $manifest | where {|r| $r.name | str starts-with "lsdocs" } | each {|r|
         let spec = if ($r.spec | describe | str starts-with "record") { $r.spec } else { {version: $r.spec} }
         let crate = $spec | get -o package | default $r.name
-        if ($spec | get -o path) != null or ($spec | get -o workspace) == true {
+        let path = $spec | get -o path
+        if $path != null {
+            if (inside-repo $path $dir) { null } else { $"`($crate)` in [($r.table)] is a path outside this repository: ($path)" }
+        } else if ($spec | get -o workspace) == true {
             null
         } else if ($spec | get -o git) == null {
             $"`($crate)` in [($r.table)] is neither a path nor a git dependency"
@@ -59,7 +81,7 @@ export def check-git-deps [manifest: record, org: record]: nothing -> list<strin
                 null
             }
         }
-    } | compact
+    } | compact)
 }
 
 # The `lsdocs-*` crates `cargo tree --duplicates` reports (its text):
@@ -69,6 +91,15 @@ export def dupes [tree: string]: nothing -> list<string> {
         | where {|l| $l =~ '^lsdocs[a-z0-9_-]* v' }
         | each {|l| $l | split row " " | first }
         | uniq
+}
+
+# The duplicates in `cargo tree --duplicates`'s result (`complete`'s
+# record); a failed run is an error, never "no duplicates".
+export def tree-dupes [result: record]: nothing -> list<string> {
+    if $result.exit_code != 0 {
+        error make --unspanned {msg: $"cargo tree failed: ($result.stderr)"}
+    }
+    dupes $result.stdout
 }
 
 # The environment that makes Cargo fetch the organization's repositories
