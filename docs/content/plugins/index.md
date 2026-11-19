@@ -53,7 +53,8 @@ makes.
   the file's extension) and `highlight`.
 - **Notes:** `versionadded`, `versionchanged`, `deprecated`,
   `versionremoved`, `seealso`, and `todo` / `todolist`.
-- **Content:** `only`, `centered`, `hlist`, `glossary`, `sectionauthor`,
+- **Content:** `only`, `centered`, `hlist`, `tab-set` with `tab-item`
+  (tabs; the item's argument is its label), `glossary`, `sectionauthor`,
   `codeauthor`, `acks`, `rubric` (with `:heading-level:`),
   `tabularcolumns` (ignored) and `math` with `:label:`.
 - **Index:** the `index` directive and role add entries (`single`,
@@ -278,3 +279,6 @@ Templates see `content` (the page body, as HTML), `page.title`,
 site root), `page.nav` (from transform-nav) and `site.title` and
 `site.base_url`. The `link` filter turns a link to a source file into a
 link to its output: `{{ item.url | link }}`.
+
+The body's classes and data attributes (`lsd-admonition`, `lsd-code`, ...)
+are listed in the [HTML markup reference](../reference/html-markup.md).

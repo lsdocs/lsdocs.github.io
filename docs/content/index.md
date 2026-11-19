@@ -22,8 +22,9 @@ Python, JavaScript, or any language that can read and write MessagePack.
   to it, with guides for [Rust](authoring/rust.md),
   [Python](authoring/python.md), [JavaScript](authoring/node.md) and
   [other languages](authoring/other-languages.md).
-- Reference: the [document tree](reference/document-tree.md) and the
-  [protocol](reference/protocol.md).
+- Reference: the [document tree](reference/document-tree.md), the
+  [protocol](reference/protocol.md) and the [HTML markup](reference/html-markup.md)
+  themes style.
 
 ## How a build works
 
