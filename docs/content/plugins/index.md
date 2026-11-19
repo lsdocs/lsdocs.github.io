@@ -269,20 +269,48 @@ Highlights code blocks whose language it knows, by name or file extension
 
 ## render-html
 
-Writes each page as HTML in a page template, and `sitemap.xml` when the
-site has an absolute `base_url`.
+Writes each page as HTML with a theme, the theme's assets, and
+`sitemap.xml` when the site has an absolute `base_url`.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `template` | built-in theme | A [minijinja](https://docs.rs/minijinja) page template, relative to the site directory. |
+| `theme` | `"default"` | A built-in theme (`default` or `plain`), else a theme directory, relative to the site directory. |
+| `theme_settings` | none | The theme's settings: `theme_settings = { footer = "..." }`. Each must be one the theme declares, of the kind of its default. |
+| `overrides` | none | A directory, relative to the site directory, whose `templates/` and `assets/` replace or add to the theme's, file by file. |
 | `heading_anchors` | `true` | Add a `#` link to each heading with an id. |
 | `sitemap` | `true` | Write `sitemap.xml`. |
 
+`default` is lsdocs' own theme. `plain` is one stylesheet, the site
+navigation beside the page and the page's table of contents as a
+drop-down menu.
+
+A theme is a directory of `theme.toml`, whose `[settings]` table
+declares the theme's settings with their defaults, `templates/`
+([minijinja](https://docs.rs/minijinja) templates; each page is rendered
+with `page.html`) and `assets/` (stylesheets, scripts and images, written
+to `_lsdocs/` with a hash of their contents in their names). A template
+in `overrides` can extend the one it replaces, as `theme/<path>`, and
+replace one block:
+
+```jinja
+{% extends "theme/page.html" %}
+{% block footer %}<footer>Our footer</footer>{% endblock %}
+```
+
 Templates see `content` (the page body, as HTML), `page.title`,
-`page.source`, `page.metadata`, `page.root` (the relative path to the
-site root), `page.nav` (from transform-nav) and `site.title` and
-`site.base_url`. The `link` filter turns a link to a source file into a
-link to its output: `{{ item.url | link }}`.
+`page.source`, `page.url` (the output path), `page.metadata`,
+`page.root` (the relative path to the site root), `page.nav` (from
+transform-nav), `page.toc` (from transform-toc), `page.previous` and
+`page.next` (the neighboring pages, `title` and `source`), `site.title`,
+`site.base_url`, `theme` (the theme's settings) and `lsdocs.version`.
+Any of the `page` values but the first four may be missing. The `link`
+filter turns a link to a source file into a link to its output
+(`{{ item.url | link }}`), `page_url` a source path into the relative URL
+of its output (`{{ item.source | page_url }}`), and `asset(path)` gives
+the relative URL of the asset `path` (under `assets/`). For themes with
+JavaScript modules, `asset_importmap()` is an import map from each
+module's plain URL to its hashed one, so modules import each other by
+their plain relative names.
 
 The body's classes and data attributes (`lsd-admonition`, `lsd-code`, ...)
 are listed in the [HTML markup reference](../reference/html-markup.md).

@@ -40,7 +40,6 @@ heading_anchors = false
 |---|---|
 | `title` | The site's title, shown by the HTML theme. |
 | `base_url` | Where the site is served from. An absolute URL (`https://...`) also lets `render-html` write a sitemap. |
-| `theme` | Reserved for themes; not used by the built-in plugins yet. |
 
 ## `[build]`
 
@@ -52,6 +51,11 @@ heading_anchors = false
 The environment variables `LSDOCS_SOURCE_DIR`, `LSDOCS_OUTPUT_DIR` and
 `LSDOCS_BASE_URL` override these settings, and the command-line flags
 `--source-dir`, `--output-dir` and `--base-url` override both.
+
+The HTML theme is not chosen here but in render-html's settings
+(`theme = "plain"` in `.config/lsdocs/html/settings.toml`; see
+[render-html](../plugins/index.md#render-html)); a `theme` key under
+`[site]` is an error.
 
 ## `[[plugins]]`
 
