@@ -114,7 +114,9 @@ overrides = "overrides"
 
 Each file there replaces the theme's file of the same path, or adds a new
 one. A template can extend the one it replaces, under the name
-`theme/<path>`, and replace a single block. This replaces the default
+`theme/<path>`, and replace a single block. `lsdocs serve` loads the
+theme and overrides once: restart it after editing either (or edit a
+file under `.config/`, which restarts the plugins). This replaces the default
 theme's footer:
 
 ```jinja
@@ -143,6 +145,10 @@ my-theme/
     css/theme.css
     js/theme.js
 ```
+
+While writing a theme, restart `lsdocs serve` after each edit: it loads
+the theme once (or edit a file under `.config/`, which restarts the
+plugins).
 
 `theme.toml` declares the theme's settings and their defaults under
 `[settings]`. There is no separate schema: a setting's kind is its
@@ -185,7 +191,14 @@ gives the URL of a file in `assets/`, relative to the page. Assets are
 written to `_lsdocs/` with a hash of their contents in their names, so
 they can be cached for good; `asset_importmap()` writes an import map
 that maps the theme's JavaScript modules' plain URLs to the hashed ones,
-so modules can import their neighbors by plain relative paths:
+so modules can import their neighbors by plain relative paths. In a
+CSS file, relative `url(...)` references to other files of `assets/`
+(fonts, images, imported stylesheets), resolved from the CSS file's own
+path, are rewritten to the hashed names; absolute URLs, `data:` URIs,
+fragments and references to files the theme does not have are left as
+they are. A script cannot be rewritten: it gets asset URLs from a
+template (`asset()`, for example in a `data-` attribute) or the import
+map.
 
 ```jinja
 <link rel="stylesheet" href="{{ asset('css/theme.css') }}">

@@ -6,9 +6,12 @@ nav_order: 3
 # HTML markup
 
 `render-html` writes a document's body as HTML whose classes and data
-attributes are a contract with themes: everything it adds is prefixed
-`lsd-` (a class, an attribute named `data-...`, or a custom element), so a
-theme's stylesheet and scripts can rely on them. Standard attributes
+attributes are a contract with themes, so a theme's stylesheet and
+scripts can rely on them. Classes and custom elements it adds are prefixed
+`lsd-`. Its `data-` attributes (`data-kind`, `data-label`,
+`data-language`, `data-lines`, ...) are not prefixed. Code blocks keep
+the `language-*` class, and the `highlight` and `hl-*` classes come from
+the `transform-highlight` plugin, also unprefixed. Standard attributes
 (`id`, `href`, `role`, `aria-label`) are used as HTML defines them. Plain
 elements (paragraphs, lists, block quotes, links, emphasis, inline code,
 `hr`, `br`, `img`) carry no class.
