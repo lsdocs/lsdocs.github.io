@@ -282,7 +282,7 @@ Writes each page as HTML with a theme, the theme's assets, and
 
 `default` is lsdocs' own theme: a header bar, the site navigation on
 the left and the page's table of contents on the right (both in a
-drawer on narrow screens), light and dark color schemes, and no
+drawer on narrow screens), light and dark color schemes, search, and no
 requests to other sites unless its settings add them. `plain` is one
 stylesheet, the site navigation beside the page and the page's table of
 contents as a drop-down menu.
@@ -302,13 +302,21 @@ contents as a drop-down menu.
 | `footer` | `""` | The footer's text (HTML). |
 | `edit_url` | `""` | An edit-this-page link: a URL with `{path}` for the page's source path, `"https://example.com/repo/edit/main/docs/{path}"`. Generated pages (`generated` metadata) get none. |
 
+`default` searches the site in the browser: the header's search button,
+or `/` or Ctrl+K, opens a dialog whose results (sections of pages,
+those whose titles match first) follow the words typed, each matching
+words that start with it. Arrow keys move through the results and Enter
+opens one. Every page is in the index, generated ones too; a page whose
+front matter says `search: false` is left out.
+
 Its stylesheets use cascade layers, so a stylesheet in `extra_css`
 overrides them without having to out-specify them; its colors,
 fonts and sizes are `--lsd-` custom properties (`--lsd-primary`,
 `--lsd-bg`, `--lsd-font-text`, ...).
 
 A theme is a directory of `theme.toml`, whose `[settings]` table
-declares the theme's settings with their defaults, `templates/`
+declares the theme's settings with their defaults (and `search = true`
+asks for a search index), `templates/`
 ([minijinja](https://docs.rs/minijinja) templates; each page is rendered
 with `page.html`) and `assets/` (stylesheets, scripts and images, written
 to `_lsdocs/` with a hash of their contents in their names). A template
@@ -325,7 +333,11 @@ Templates see `content` (the page body, as HTML), `page.title`,
 `page.root` (the relative path to the site root), `page.nav` (from
 transform-nav), `page.toc` (from transform-toc), `page.previous` and
 `page.next` (the neighboring pages, `title` and `source`), `site.title`,
-`site.base_url`, `theme` (the theme's settings) and `lsdocs.version`.
+`site.base_url`, `theme` (the theme's settings), `lsdocs.version` and,
+for a theme with `search = true`, `search_index`: the path from the site
+root of the index, `_lsdocs/search.json`, which lists each page's `url`
+and `title` and its `sections` (`id`, `title` and `text`, without
+markup).
 Any of the `page` values but the first four may be missing. The `link`
 filter turns a link to a source file into a link to its output
 (`{{ item.url | link }}`), `page_url` a source path into the relative URL
