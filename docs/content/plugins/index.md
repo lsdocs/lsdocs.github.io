@@ -224,12 +224,16 @@ is elsewhere (Homebrew's `llvm` is not linked into the usual places), set
 
 ## transform-toc
 
-Adds a table of contents to each page, after its first title: links to
-the page's sections.
+Writes each page's table of contents as page data: the `toc` metadata, a
+list of `{ id, title, level, children }` entries for the page's sections
+(nested by heading level), which themes show. A first section with a level
+1 heading is the page title and is not an entry. Pages with nothing to
+list get no `toc`.
 
 | Setting | Default | Meaning |
 |---|---|---|
 | `depth` | `3` | The deepest heading level listed. |
+| `inline` | `false` | Also insert a list of links to the sections into the page, after its first title (a `toc` node). Themes that show `toc` themselves leave it off. |
 
 ## transform-links
 
