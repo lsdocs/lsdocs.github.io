@@ -1,0 +1,75 @@
+# The organization's repositories and their crates (from the
+# monorepo's tools/split/repos.nuon).
+{
+    lsdocs-doctree: [
+        lsdocs-doctree
+    ],
+    lsdocs-protocol: [
+        lsdocs-config,
+        lsdocs-protocol,
+        lsdocs-gen
+    ],
+    lsdocs-plugin-sdk: [
+        lsdocs-rpc,
+        lsdocs-plugin-sdk,
+        lsdocs-plugin-sdk-bindings,
+        lsdocs-plugin-python,
+        lsdocs-plugin-node
+    ],
+    lsdocs-rst: [
+        lsdocs-rst,
+        lsdocs-parser-rst,
+        lsdocs-rst-python,
+        lsdocs-rst-node
+    ],
+    lsdocs-markdown: [
+        lsdocs-parser-markdown
+    ],
+    lsdocs-apidoc: [
+        lsdocs-apidoc,
+        lsdocs-apidoc-plugin
+    ],
+    lsdocs-apidoc-python: [
+        lsdocs-apidoc-python
+    ],
+    lsdocs-apidoc-typescript: [
+        lsdocs-apidoc-typescript
+    ],
+    lsdocs-apidoc-rust: [
+        lsdocs-apidoc-rust
+    ],
+    lsdocs-apidoc-clang: [
+        lsdocs-apidoc-clang
+    ],
+    lsdocs-sphinx-addons: [
+        lsdocs-sphinx-addons
+    ],
+    lsdocs-extras: [
+        lsdocs-extras-plugin
+    ],
+    lsdocs-render-html: [
+        lsdocs-render-html
+    ],
+    lsdocs-transform-toc: [
+        lsdocs-transform-toc
+    ],
+    lsdocs-transform-links: [
+        lsdocs-transform-links
+    ],
+    lsdocs-transform-nav: [
+        lsdocs-transform-nav
+    ],
+    lsdocs-transform-highlight: [
+        lsdocs-transform-highlight
+    ],
+    lsdocs: [
+        lsdocs-host,
+        lsdocs
+    ],
+    lsdocs-bench: [
+
+    ],
+    "lsdocs.github.io": [
+
+    ]
+}

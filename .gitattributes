@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.msgpack binary
+# Windows scripts need CRLF to run correctly.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+# Test images and files read as bytes.
+*.png binary
+*.gif binary
+*.jpg binary
+*.bmp binary
+*.webp binary
+crates/rst/tests/cases/files/latin1.txt binary

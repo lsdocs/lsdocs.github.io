@@ -1,0 +1,13 @@
+/target/
+# Local `[patch]` entries written by `nur link` (never committed).
+/.cargo/config.toml
+node_modules/
+.venv*/
+__pycache__/
+*.py[cod]
+*.pdb
+*.node
+*.pyd
+*.abi3.so
+.lsdocs-cache/
+/site/
