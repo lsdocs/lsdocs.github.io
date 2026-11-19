@@ -70,7 +70,7 @@ others the parsers make, and Sphinx's `versionadded`, `deprecated`,
 
 ## Tabs
 
-`tab-set` and `tab-item` directives (`sphinx-addons`) become a custom
+`tab-set` and `tab-item` directives (the `extras` plugin) become a custom
 element with one panel per tab:
 
 ```html

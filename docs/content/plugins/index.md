@@ -53,8 +53,7 @@ makes.
   the file's extension) and `highlight`.
 - **Notes:** `versionadded`, `versionchanged`, `deprecated`,
   `versionremoved`, `seealso`, and `todo` / `todolist`.
-- **Content:** `only`, `centered`, `hlist`, `tab-set` with `tab-item`
-  (tabs; the item's argument is its label), `glossary`, `sectionauthor`,
+- **Content:** `only`, `centered`, `hlist`, `glossary`, `sectionauthor`,
   `codeauthor`, `acks`, `rubric` (with `:heading-level:`),
   `tabularcolumns` (ignored) and `math` with `:label:`.
 - **Index:** the `index` directive and role add entries (`single`,
@@ -85,6 +84,16 @@ makes.
 | `toctree_nav` | `true` | Make toctrees the navigation (through `nav_children`). |
 
 Domains (`py:function` and the like) are not supported yet.
+
+## extras
+
+Content features lsdocs adds of its own, neither docutils' nor Sphinx's,
+in reStructuredText and in Markdown alike. It has no settings.
+
+- **Content tabs:** a `tab-set` directive of `tab-item`s, each with its
+  label as the argument (sphinx-design's names; its `sync-group`,
+  `selected`, `sync`, `name` and class options are accepted and ignored).
+  Themes show them as tabs; see [Writing pages](../guide/writing.md).
 
 ## apidoc-python
 

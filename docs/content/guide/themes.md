@@ -98,7 +98,7 @@ front matter says `search: false` is left out.
 ### Content tabs
 
 Tabs come from the `tab-set` and `tab-item` directives of the
-`sphinx-addons` plugin. Tab sets whose items have the same labels are
+`extras` plugin. Tab sets whose items have the same labels are
 linked: choosing a label in one chooses it in the others, and the choice
 is remembered.
 

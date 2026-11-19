@@ -21,6 +21,10 @@ builtin = "parser-rst"
 name = "sphinx"
 builtin = "sphinx-addons"
 
+[[plugins]]
+name = "extras"
+builtin = "extras"
+
 # The Python packages' API, from their source (Phase 12c).
 [[plugins]]
 name = "python"

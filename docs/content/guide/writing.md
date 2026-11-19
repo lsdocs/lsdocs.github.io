@@ -63,7 +63,7 @@ it handles; a `{name}` fence no plugin handles is kept for plugins as a
 `custom` node, and an unknown role stays text and code.
 
 Content in tabs is a `tab-set` directive of `tab-item`s, each with its
-label as the argument (`sphinx-addons`). Tab sets are linked: choosing a
+label as the argument (the `extras` plugin). Tab sets are linked: choosing a
 label in one shows it in every tab set of the page that has it.
 
 ```````{tab-set}
