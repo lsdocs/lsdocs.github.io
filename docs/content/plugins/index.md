@@ -280,9 +280,32 @@ Writes each page as HTML with a theme, the theme's assets, and
 | `heading_anchors` | `true` | Add a `#` link to each heading with an id. |
 | `sitemap` | `true` | Write `sitemap.xml`. |
 
-`default` is lsdocs' own theme. `plain` is one stylesheet, the site
-navigation beside the page and the page's table of contents as a
-drop-down menu.
+`default` is lsdocs' own theme: a header bar, the site navigation on
+the left and the page's table of contents on the right (both in a
+drawer on narrow screens), light and dark color schemes, and no
+requests to other sites unless its settings add them. `plain` is one
+stylesheet, the site navigation beside the page and the page's table of
+contents as a drop-down menu.
+
+`default` takes these `theme_settings`:
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `scheme` | `"auto"` | The color scheme until the reader picks one: `"auto"` (the system's), `"light"` or `"dark"`. |
+| `primary` | `"indigo"` | The header's and links' color: `red`, `pink`, `purple`, `deep-purple`, `indigo`, `blue`, `light-blue`, `cyan`, `teal`, `green`, `light-green`, `lime`, `yellow`, `amber`, `orange`, `deep-orange`, `brown`, `grey`, `blue-grey`, `black`, `white`, else any CSS color. |
+| `accent` | `"indigo"` | The color of hovered links and focus, from the same names (or a CSS color). |
+| `font_text`, `font_code` | `""` | Font family names for text and code; empty: the system's fonts. Nothing is downloaded: load a web font with `extra_css`. |
+| `logo`, `favicon` | `""` | The header's logo and the favicon: paths from the site root (files in the source directory are copied to the output), or URLs. |
+| `language` | `"en"` | The pages' `lang`, and of the theme's labels (English where it has none). |
+| `extra_css`, `extra_js` | `[]` | Stylesheets and scripts added to every page: paths from the site root, or URLs. |
+| `social` | `[]` | Links in the footer: `{ icon = "mail", link = "mailto:..." }`; `icon` is `link`, `mail`, `rss`, `chat` or `code`, else an image's path or URL. |
+| `footer` | `""` | The footer's text (HTML). |
+| `edit_url` | `""` | An edit-this-page link: a URL with `{path}` for the page's source path, `"https://example.com/repo/edit/main/docs/{path}"`. |
+
+Its stylesheets use cascade layers, so a stylesheet in `extra_css`
+overrides them without having to out-specify them; its colors,
+fonts and sizes are `--lsd-` custom properties (`--lsd-primary`,
+`--lsd-bg`, `--lsd-font-text`, ...).
 
 A theme is a directory of `theme.toml`, whose `[settings]` table
 declares the theme's settings with their defaults, `templates/`
@@ -306,7 +329,9 @@ transform-nav), `page.toc` (from transform-toc), `page.previous` and
 Any of the `page` values but the first four may be missing. The `link`
 filter turns a link to a source file into a link to its output
 (`{{ item.url | link }}`), `page_url` a source path into the relative URL
-of its output (`{{ item.source | page_url }}`), and `asset(path)` gives
+of its output (`{{ item.source | page_url }}`), `url` a path from the
+site root into a URL relative to the page, keeping URLs as they are
+(`{{ theme.logo | url }}`), and `asset(path)` gives
 the relative URL of the asset `path` (under `assets/`). For themes with
 JavaScript modules, `asset_importmap()` is an import map from each
 module's plain URL to its hashed one, so modules import each other by
