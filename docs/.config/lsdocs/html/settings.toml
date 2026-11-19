@@ -1,2 +1,3 @@
-# The simple built-in theme, until the default one is styled.
-theme = "plain"
+# The documentation site uses lsdocs' default theme; "Themes" in the
+# guide lists its settings.
+theme = "default"

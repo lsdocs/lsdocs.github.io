@@ -280,6 +280,9 @@ Writes each page as HTML with a theme, the theme's assets, and
 | `heading_anchors` | `true` | Add a `#` link to each heading with an id. |
 | `sitemap` | `true` | Write `sitemap.xml`. |
 
+The [Themes guide](../guide/themes.md) covers choosing and setting up a
+theme, overrides and writing a theme.
+
 `default` is lsdocs' own theme: a header bar, the site navigation on
 the left and the page's table of contents on the right (both in a
 drawer on narrow screens), light and dark color schemes, search, and no
@@ -327,6 +330,11 @@ replace one block:
 {% extends "theme/page.html" %}
 {% block footer %}<footer>Our footer</footer>{% endblock %}
 ```
+
+The default theme needs a 2024-era evergreen browser (CSS nesting,
+`light-dark()`, relative color syntax, `:has()`, import maps and module
+workers; no fallbacks), and its search needs the site served over http
+or https, not `file://`.
 
 Templates see `content` (the page body, as HTML), `page.title`,
 `page.source`, `page.url` (the output path), `page.metadata`,
