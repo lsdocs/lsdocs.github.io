@@ -1,2 +1,0 @@
-paths = [{ path = "../examples/clang-sample/include/geo/shapes.hpp", module = "geo/shapes" }]
-output = "api/cpp"

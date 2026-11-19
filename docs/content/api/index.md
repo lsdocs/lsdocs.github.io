@@ -5,16 +5,20 @@ nav_order: 5
 
 # API reference
 
-Generated from the source code of the plugin SDKs and the
-reStructuredText library, by `apidoc-rust`, `apidoc-python` and `apidoc-typescript`, and a
-sample C and C++ library:
+Each repository documents its own API, generated from its source by the
+API documentation plugins (`apidoc-rust`, `apidoc-python`,
+`apidoc-typescript`, `apidoc-c` and `apidoc-cpp`), and publishes it on
+its own site:
 
-- [Rust](rust/index.md): `lsdocs_plugin_sdk` (plugins), with the
-  protocol's types (`lsdocs_protocol`) and the document tree
-  (`lsdocs_doctree`) it re-exports.
-- [C](c/index.md) and [C++](cpp/index.md): a sample library
-  (`examples/clang-sample`), by `apidoc-c` and `apidoc-cpp`.
-- [Python](python/index.md): `lsdocs_plugin` (plugins) and `lsdocs_rst`
-  (the reStructuredText parser).
-- [TypeScript](typescript/index.md): `@lsdocs/plugin` and `@lsdocs/rst`,
-  for Node.js.
+- [lsdocs-plugin-sdk](https://lsdocs.github.io/lsdocs-plugin-sdk/): the
+  plugin SDKs: `lsdocs_plugin_sdk` (Rust), `lsdocs_plugin` (Python) and
+  `@lsdocs/plugin` (Node.js).
+- [lsdocs-protocol](https://lsdocs.github.io/lsdocs-protocol/): the
+  protocol's types (`lsdocs_protocol`, `lsdocs_config`).
+- [lsdocs-doctree](https://lsdocs.github.io/lsdocs-doctree/): the document
+  tree (`lsdocs_doctree`).
+- [lsdocs-rst](https://lsdocs.github.io/lsdocs-rst/): the
+  reStructuredText library: `lsdocs_rst` (Python), `@lsdocs/rst`
+  (Node.js) and the Rust crate.
+- [lsdocs-apidoc-clang](https://lsdocs.github.io/lsdocs-apidoc-clang/): a
+  sample C and C++ library, documented by `apidoc-c` and `apidoc-cpp`.

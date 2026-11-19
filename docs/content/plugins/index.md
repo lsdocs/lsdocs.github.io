@@ -120,7 +120,7 @@ pkg.name` places a generated one in a page, and `` :py:func:`name` ``
 | `doc_style` | `"auto"` | Docstring sections: `auto`, `plain`, `google`, `numpy`, `sphinx`, `tags`. |
 | `primary` | `false` | Also take the roles without `py:` (`:func:`), as Sphinx's `primary_domain`. |
 
-This site's [Python API](../api/python/index.md) is made by it.
+The plugin SDK's [Python API](https://lsdocs.github.io/lsdocs-plugin-sdk/) is made by it.
 
 ## apidoc-typescript
 
@@ -141,7 +141,7 @@ brings the `js` domain (`js:function`, `js:class`, `js:interface`,
 
 It takes the other settings of `apidoc-python` too (`private`,
 `doc_format`, `doc_style`, `primary`). This site's
-[TypeScript API](../api/typescript/index.md) is made by it.
+[TypeScript API](https://lsdocs.github.io/lsdocs-plugin-sdk/) is made by it.
 
 ## apidoc-rust
 
@@ -175,7 +175,7 @@ are re-exported. It brings the `rs` domain (`rs:function`,
 | `output` | `"api/rs"` | Where the pages go. |
 
 It takes the other settings of `apidoc-python` too (`private` passes
-`--document-private-items`). This site's [Rust API](../api/rust/index.md)
+`--document-private-items`). The plugin SDK's [Rust API](https://lsdocs.github.io/lsdocs-plugin-sdk/)
 is made by it.
 
 ## apidoc-c and apidoc-cpp
@@ -213,8 +213,8 @@ They bring Sphinx's `c` and `cpp` domains: `c:function`, `c:struct`,
 | `output` | `"api/c"`, `"api/cpp"` | Where the pages go. |
 
 They take the other settings of `apidoc-python` too (`private`,
-`doc_format`, `doc_style`, `primary`). This site's [C](../api/c/index.md)
-and [C++](../api/cpp/index.md) samples are made by them.
+`doc_format`, `doc_style`, `primary`). lsdocs-apidoc-clang's [C and C++
+samples](https://lsdocs.github.io/lsdocs-apidoc-clang/) are made by them.
 
 ### Installing libclang
 

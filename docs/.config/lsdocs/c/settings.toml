@@ -1,2 +1,0 @@
-paths = [{ path = "../examples/clang-sample/include/geo/vec.h", module = "geo/vec" }]
-output = "api/c"

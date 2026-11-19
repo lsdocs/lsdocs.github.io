@@ -43,3 +43,10 @@ shows them. `nur ci` runs what CI runs: run it before committing. Tools:
 - Licensing: `Apache-2.0 OR MIT`. Nothing is published.
 - Record what is left open in README.md's TODO section, and what the code
   does not do (or does differently) under Known limitations.
+
+## This repository
+
+No Rust code: the site in `docs/` and the nurfile. `nur docs` and `nur ci`
+install lsdocs from git (or use `LSDOCS_BIN`); with `LSDOCS_ORG_DIR` set,
+from the local clones, and the schemas come from the local
+lsdocs-protocol clone instead of its latest release.

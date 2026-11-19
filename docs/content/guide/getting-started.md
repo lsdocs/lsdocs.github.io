@@ -6,11 +6,11 @@ nav_order: 1
 
 ## Install
 
-lsdocs is not published yet. Build it from a checkout of the repository
-with a stable Rust toolchain:
+lsdocs is not published yet. Install it from its repository with a
+stable Rust toolchain:
 
 ```sh
-cargo install --path crates/cli
+cargo install --git https://github.com/lsdocs/lsdocs lsdocs
 ```
 
 This installs the `lsdocs` command.

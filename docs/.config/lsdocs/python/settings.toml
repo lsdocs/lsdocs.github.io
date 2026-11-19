@@ -1,7 +1,0 @@
-# The Python packages' API, from their source (paths from the site directory).
-paths = [
-    "../bindings/plugin/python/python/lsdocs_plugin",
-    "../bindings/rst/python/python/lsdocs_rst",
-]
-primary = true
-output = "api/python"

@@ -11,3 +11,4 @@ __pycache__/
 *.abi3.so
 .lsdocs-cache/
 /site/
+/docs/site/

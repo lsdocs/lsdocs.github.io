@@ -1,91 +1,62 @@
 # Dev tasks for lsdocs.github.io (run with `nur`; `nur --list` shows them).
-# The tasks shared by every lsdocs repository come first; this
-# repository's own follow.
 
 use scripts/org.nu
 
-# The organization's repositories and their crates (for `check-git-deps`
-# and `link`).
-def org-map []: nothing -> record { open scripts/org.nuon }
-
-# Runs cargo with `org-env` (local clones when LSDOCS_ORG_DIR is set).
-# PYO3_BUILD_EXTENSION_MODULE builds pyo3 crates as extension modules (no
-# libpython link), as maturin does, so plain cargo builds of them work.
-def --wrapped cargo-org [...args] {
-    with-env ((org org-env) | insert PYO3_BUILD_EXTENSION_MODULE "1") { ^cargo ...$args }
-}
-
-# Format the Rust code (`--check` only checks).
-def "nur fmt" [--check] {
-    if $check { cargo fmt --all -- --check } else { cargo fmt --all }
-}
-
-# Clippy, warnings as errors.
-def "nur lint" [] {
-    cargo-org clippy --workspace --all-targets -- -D warnings
-}
-
-# The Rust tests.
-def "nur test" [] {
-    cargo-org test --workspace
-}
-
-# Fails if a crate of the organization is built twice (two sources, or a
-# `[patch]` applied on one side only).
-def "nur check-dupes" [] {
-    let found = org dupes (cargo-org tree --workspace --duplicates -e normal,build,dev | complete | get stdout)
-    if ($found | is-not-empty) {
-        error make --unspanned {msg: $"built twice: ($found | str join ', ')"}
+# The `lsdocs` binary: LSDOCS_BIN if set, else lsdocs (default features:
+# every built-in plugin) installed from git into target/lsdocs-bin. With
+# LSDOCS_ORG_DIR set, from the local clones there.
+def lsdocs-bin []: nothing -> string {
+    let given = $env | get -o LSDOCS_BIN
+    if $given != null and $given != "" { return $given }
+    let root = $env.PWD | path join target lsdocs-bin
+    with-env (org org-env) {
+        cargo install --quiet --git $"($org.ORG_URL)/lsdocs" --root $root lsdocs
     }
-    print "check-dupes: OK"
+    $root | path join bin (if $nu.os-info.name == "windows" { "lsdocs.exe" } else { "lsdocs" })
 }
 
-# Fails unless every lsdocs dependency is a path inside this repository or
-# a git dependency on the organization repository holding it.
-def "nur check-git-deps" [] {
-    let manifests = glob "{Cargo.toml,crates/*/Cargo.toml,bindings/*/Cargo.toml,tools/*/Cargo.toml}"
-    let errors = $manifests | each {|m| org check-git-deps (open $m) (org-map) | each {|e| $"($m): ($e)" } } | flatten
-    if ($errors | is-not-empty) {
-        for e in $errors { print -e $"error: ($e)" }
-        error make --unspanned {msg: "check-git-deps failed"}
+# Copies lsdocs-protocol's JSON Schemas into `<out>/schema`: from its
+# latest release (schema.tar.gz), or, with LSDOCS_ORG_DIR set, from the
+# local clone there.
+def schemas [out: string]: nothing -> nothing {
+    let dest = $out | path join schema
+    rm -rf $dest
+    let dir = $env | get -o LSDOCS_ORG_DIR
+    if $dir != null and $dir != "" {
+        cp -r ($dir | path join lsdocs-protocol schema) $dest
+        return
     }
-    print $"check-git-deps: ($manifests | length) manifest\(s\) OK"
+    let archive = "target/schema.tar.gz"
+    mkdir target
+    let got = http get --raw --full --allow-errors $"($org.ORG_URL)/lsdocs-protocol/releases/latest/download/schema.tar.gz"
+    if $got.status != 200 {
+        error make --unspanned {msg: "no lsdocs-protocol release yet: push a v* tag there (or pass --no-schema)"}
+    }
+    $got.body | save --raw --force $archive
+    tar -xzf $archive -C $out
 }
 
-# Builds against a local checkout of an organization repository (live
-# edits, committed or not): writes `[patch]` entries into the untracked
-# .cargo/config.toml. `nur unlink` undoes it.
-def "nur link" [path: string] {
-    let name = $path | path expand | path basename
-    let crates = org-map | get -o $name
-    if $crates == null { error make --unspanned {msg: $"`($name)` is not a repository of the organization"} }
-    mkdir .cargo
-    let file = ".cargo/config.toml"
-    let config = if ($file | path exists) { open $file } else { {} }
-    let patch = $config | get -o patch | default {} | upsert $"($org.ORG_URL)/($name)" (org patch-entries $path $crates)
-    $config | upsert patch $patch | to toml | save -f $file
-    print $"linked ($name) -> ($path | path expand)"
+# Builds the site (lsdocs build) into `out` and fails on any warning or
+# error, so broken links fail.
+def build-site [out: string, --no-schema]: nothing -> nothing {
+    let result = with-env {LSDOCS_LOG: ""} {
+        ^(lsdocs-bin) build --no-cache --config docs/lsdocs.toml --output-dir $out | complete
+    }
+    if $result.exit_code != 0 or ($result.stderr | str contains "warning") or ($result.stderr | str contains "error") {
+        error make --unspanned {msg: $"the site should build cleanly:\n($result.stderr)"}
+    }
+    if not $no_schema { schemas $out }
+    print $"built ($out)"
 }
 
-# Removes `nur link`'s entries (all, or one repository's).
-def "nur unlink" [name?: string] {
-    let file = ".cargo/config.toml"
-    if not ($file | path exists) { return }
-    let config = open $file
-    let patch = if $name == null { {} } else { $config | get -o patch | default {} | reject -o $"($org.ORG_URL)/($name)" }
-    $config | upsert patch $patch | to toml | save -f $file
+# Builds the site into docs/site, with the schemas under schema/ (pass
+# --no-schema to skip them).
+def "nur docs" [--no-schema] {
+    build-site ("docs/site" | path expand) --no-schema=$no_schema
 }
 
-# Updates the lockfile's revision of organization crates (all, or one).
-def "nur bump" [crate?: string] {
-    if $crate == null { cargo-org update } else { cargo-org update -p $crate }
-}
-
-# What CI runs.
+# What CI runs: the site builds without warnings (schemas are fetched when
+# it is deployed).
 def "nur ci" [] {
-    nur fmt --check
-    nur lint
-    nur test
-    nur check-dupes
-    nur check-git-deps
+    build-site ("target/site" | path expand) --no-schema
 }
