@@ -3,4 +3,4 @@
 [tools]
 nushell = "0.116.1"
 "cargo:nur" = "0.32.0"
-"cargo:cargo-deny" = "0.19.0"
+# "cargo:cargo-deny" = "0.19.0"
