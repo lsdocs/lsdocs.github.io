@@ -21,7 +21,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: lsdocs/.github/.github/setup-repo@setup-reusable-ci
+      - uses: lsdocs/.github/.github/setup-repo@main
       - run: nur ci
 
       - name: Upload build artifacts

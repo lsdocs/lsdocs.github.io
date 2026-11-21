@@ -25,7 +25,7 @@ Other lsdocs repositories are git dependencies
 
 Dev tasks are nushell scripts run with `nur` (`nurfile`); `nur --list`
 shows them. `nur ci` runs what CI runs: run it before committing. Tools:
-`mise install` (see `mise.toml`); Rust from rustup.
+`mise install` (see `.config/mise.toml`); Rust from rustup.
 
 ## Conventions
 

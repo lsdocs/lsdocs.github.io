@@ -1,7 +1,4 @@
 # Dev tools for this repository (https://mise.jdx.dev): `mise install`.
 # Rust itself comes from rustup, as rust-toolchain.toml says.
 [tools]
-"github:nushell/nushell" = "0.117.0"
 "cargo:nur" = "0.32.0"
-"cargo:cargo-deny" = "0.21.0"
-uv = "0.13.9"
