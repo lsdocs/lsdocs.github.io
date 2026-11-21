@@ -1,0 +1,4 @@
+# Dev tools for this repository (https://mise.jdx.dev): `mise install`.
+# Rust itself comes from rustup, as rust-toolchain.toml says.
+[tools]
+"cargo:nur" = "0.32.0"
