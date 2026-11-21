@@ -15,9 +15,24 @@ def lsdocs-bin []: nothing -> string {
     $root | path join bin (if $nu.os-info.name == "windows" { "lsdocs.exe" } else { "lsdocs" })
 }
 
-# Copies lsdocs-protocol's JSON Schemas into `<out>/schema`: from its
-# latest release (schema.tar.gz), or, with LSDOCS_ORG_DIR set, from the
-# local clone there.
+# The download URL of schema.tar.gz on the newest `lsdocs-protocol/v*`
+# release of the lsdocs-protocol repository (it also releases
+# lsdocs-config, so its "latest" release may not be the one), or null.
+def schema-archive-url []: nothing -> any {
+    let token = $env | get -o GITHUB_TOKEN | default ($env | get -o GH_TOKEN)
+    let headers = if $token != null and $token != "" { [Authorization $"Bearer ($token)"] } else { [] }
+    let releases = (
+        http get --headers $headers "https://api.github.com/repos/lsdocs/lsdocs-protocol/releases?per_page=100"
+        | where {|r| ($r.tag_name | str starts-with "lsdocs-protocol/v") and not $r.draft }
+        | sort-by created_at --reverse
+    )
+    if ($releases | is-empty) { return null }
+    $releases | first | get assets | where name == "schema.tar.gz" | get -o 0.browser_download_url
+}
+
+# Copies lsdocs-protocol's JSON Schemas into `<out>/schema`: from its newest
+# lsdocs-protocol release (schema.tar.gz), or, with LSDOCS_ORG_DIR set,
+# from the local clone there.
 def schemas [out: string]: nothing -> nothing {
     let dest = $out | path join schema
     rm -rf $dest
@@ -26,11 +41,15 @@ def schemas [out: string]: nothing -> nothing {
         cp -r ($dir | path join lsdocs-protocol schema) $dest
         return
     }
+    let url = schema-archive-url
+    if $url == null {
+        error make --unspanned {msg: "no lsdocs-protocol release yet: release lsdocs-protocol there (or pass --no-schema)"}
+    }
     let archive = "target/schema.tar.gz"
     mkdir target
-    let got = http get --raw --full --allow-errors $"($org.ORG_URL)/lsdocs-protocol/releases/latest/download/schema.tar.gz"
+    let got = http get --raw --full --allow-errors $url
     if $got.status != 200 {
-        error make --unspanned {msg: "no lsdocs-protocol release yet: push a v* tag there (or pass --no-schema)"}
+        error make --unspanned {msg: $"downloading ($url) failed: ($got.status)"}
     }
     $got.body | save --raw --force $archive
     tar -xzf $archive -C $out
