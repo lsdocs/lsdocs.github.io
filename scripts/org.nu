@@ -127,3 +127,19 @@ export def patch-entries [dir: string, crates: list<string>]: nothing -> record 
         | where {|c| $c.name in $crates }
         | reduce --fold {} {|c, acc| $acc | insert $c.name {path: $c.path} }
 }
+
+# Runs an external command, streaming its output, after printing the
+# command line; then prints how long it took. Both in magenta, so the
+# steps of `nur ci` stand out from their output. Not for commands whose
+# output is captured (`| complete`, `| from json`): call those directly.
+export def --wrapped run-cmd [...cmd] {
+    let words = $cmd | each { into string }
+    let program = $words | first
+    # The label: the program and its subcommand (the first word that is
+    # not an option or a `+toolchain`), e.g. `cargo clippy`.
+    let sub = $words | skip 1 | where {|w| not ($w starts-with "-") and not ($w starts-with "+") } | first 1
+    let label = [$program ...$sub] | str join " "
+    print $"(ansi magenta)> ($words | str join ' ')(ansi reset)"
+    let elapsed = timeit { ^$program ...($words | skip 1) }
+    print $"(ansi magenta)($label) took (($elapsed / 1ms | math round) * 1ms)(ansi reset)"
+}
