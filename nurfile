@@ -1,6 +1,7 @@
 # Dev tasks for lsdocs.github.io (run with `nur`; `nur --list` shows them).
 
 use scripts/org.nu
+use scripts/org.nu run-cmd
 
 # The `lsdocs` binary: LSDOCS_BIN if set, else lsdocs (default features:
 # every built-in plugin) installed from git into target/lsdocs-bin. With
@@ -10,7 +11,7 @@ def lsdocs-bin []: nothing -> string {
     if $given != null and $given != "" { return $given }
     let root = $env.PWD | path join target lsdocs-bin
     with-env (org org-env) {
-        cargo install --quiet --git $"($org.ORG_URL)/lsdocs" --root $root lsdocs
+        run-cmd cargo install --quiet --git $"($org.ORG_URL)/lsdocs" --root $root lsdocs
     }
     $root | path join bin (if $nu.os-info.name == "windows" { "lsdocs.exe" } else { "lsdocs" })
 }
@@ -52,7 +53,7 @@ def schemas [out: string]: nothing -> nothing {
         error make --unspanned {msg: $"downloading ($url) failed: ($got.status)"}
     }
     $got.body | save --raw --force $archive
-    tar -xzf $archive -C $out
+    run-cmd tar -xzf $archive -C $out
 }
 
 # Builds the site (lsdocs build) into `out` and fails on any warning or
