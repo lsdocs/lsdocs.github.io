@@ -14,11 +14,24 @@ separate settings): the tables below list the keys. A missing file means
 the defaults; an unknown key is an error. parser-rst reads docutils' own
 `docutils.conf` instead. See [Configuration](../guide/configuration.md#plugin-settings).
 
-## parser-markdown
+## parser-myst
 
-Parses `.md` and `.markdown` files: CommonMark with tables, task lists,
-footnotes, definition lists, math, alerts and heading ids, plus YAML or
-TOML front matter (see [Writing pages](../guide/writing.md)).
+Parses `.md` and `.markdown` files as MyST: CommonMark with tables, task
+lists, footnotes, definition lists, math, alerts and heading ids, plus
+YAML or TOML front matter (see [Writing pages](../guide/writing.md)), and
+MyST's syntax extensions: directives in ```` ```{name} ```` and
+`:::{name}` fences, `` {name}`text` `` roles and `(label)=` targets.
+Built on markdown-it.
+
+## parser-pulldown-cmark
+
+Parses `.md` and `.markdown` files as the pulldown-cmark library reads
+them: the same constructs as parser-myst, without directives, roles or
+targets. List one Markdown parser per site.
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `smart-punctuation` | `false` | Curly quotes, en and em dashes, and ellipses. |
 
 ## parser-rst
 

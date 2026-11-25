@@ -19,7 +19,7 @@ output_dir = "site"
 
 [[plugins]]
 name = "markdown"
-builtin = "parser-markdown"
+builtin = "parser-myst"
 
 [[plugins]]
 name = "html"
