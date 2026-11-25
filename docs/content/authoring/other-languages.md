@@ -35,7 +35,8 @@ Keep stdout for the protocol: write logs to stderr.
 `examples/plugins/txt-parser/txt_parser.py` in the
 [lsdocs repository](https://github.com/lsdocs/lsdocs) is a
 parser for `.txt` files in about 200 lines of standard-library Python,
-MessagePack codec included, written from the specification alone. The
+MessagePack codec included, written from the
+[specification](../reference/wire.md) alone. The
 test suite builds a site with it.
 
 ## Checking your implementation

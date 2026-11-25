@@ -7,8 +7,9 @@ nav_order: 2
 
 lsdocs talks to plugins with [msgpack-rpc](https://github.com/msgpack-rpc/msgpack-rpc/blob/master/spec.md)
 messages, each framed by a 4-byte length, over the plugin's standard
-input and output or a named pipe. The full specification is `spec/wire.md`
-in the [lsdocs-protocol repository](https://github.com/lsdocs/lsdocs-protocol),
+input and output or a named pipe. The full specification is the
+[wire protocol](wire.md) page (`spec/wire.md` in the
+[lsdocs-protocol repository](https://github.com/lsdocs/lsdocs-protocol)),
 with JSON Schemas for every message in `schema/` (also served here, under
 `schema/`, and attached to its releases) and encoded examples in
 `fixtures/`.
