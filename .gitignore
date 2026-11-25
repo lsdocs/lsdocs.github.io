@@ -12,3 +12,5 @@ __pycache__/
 .lsdocs-cache/
 /site/
 /docs/site/
+# The wire specification's page, written by `nur docs` and `nur ci`.
+/docs/content/reference/wire.md

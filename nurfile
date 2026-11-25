@@ -56,9 +56,47 @@ def schemas [out: string]: nothing -> nothing {
     run-cmd tar -xzf $archive -C $out
 }
 
+# The newest `lsdocs-protocol/v*` tag of lsdocs-protocol (the release the
+# schemas come from), or null. Read with git, so no API token is needed.
+def protocol-tag []: nothing -> any {
+    let url = $"($org.ORG_URL)/lsdocs-protocol"
+    let refs = ^git ls-remote --tags --refs --sort=-v:refname $url "lsdocs-protocol/v*" | lines
+    if ($refs | is-empty) { return null }
+    $refs | first | split row "\t" | last | str replace "refs/tags/" ""
+}
+
+# The page of lsdocs-protocol's wire specification (`spec/wire.md`):
+# docs/content/reference/wire.md, written for each build and not committed.
+# From the newest lsdocs-protocol release's tag, or, with LSDOCS_ORG_DIR
+# set, from the local clone there. Its links into that repository
+# (`../schema/...`) are pointed at GitHub, at the same revision.
+const WIRE_PAGE = "docs/content/reference/wire.md"
+def wire-spec []: nothing -> nothing {
+    let dir = $env | get -o LSDOCS_ORG_DIR
+    let local = $dir != null and $dir != ""
+    let rev = if $local { "main" } else { protocol-tag }
+    if $rev == null {
+        error make --unspanned {msg: "no lsdocs-protocol release yet: release lsdocs-protocol first"}
+    }
+    let text = if $local {
+        open --raw ($dir | path join lsdocs-protocol spec wire.md)
+    } else {
+        let url = $"https://raw.githubusercontent.com/lsdocs/lsdocs-protocol/refs/tags/($rev)/spec/wire.md"
+        let got = http get --raw --full --allow-errors $url
+        if $got.status != 200 {
+            error make --unspanned {msg: $"downloading ($url) failed: ($got.status)"}
+        }
+        $got.body
+    }
+    let base = $"($org.ORG_URL)/lsdocs-protocol/blob/($rev)/"
+    let body = $text | str replace --all "\r\n" "\n" | str replace --all "](../" $"]\(($base)"
+    $"---\ntitle: Wire protocol\nnav_order: 3\n---\n\n($body)" | save --raw --force $WIRE_PAGE
+}
+
 # Builds the site (lsdocs build) into `out` and fails on any warning or
 # error, so broken links fail.
 def build-site [out: string, --no-schema]: nothing -> nothing {
+    wire-spec
     let result = with-env {LSDOCS_LOG: ""} {
         ^(lsdocs-bin) build --no-cache --config docs/lsdocs.toml --output-dir $out | complete
     }

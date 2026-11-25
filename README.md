@@ -9,11 +9,12 @@ repositories it documents; the site links to them.
 
 ## Known limitations
 
-- The protocol reference names `spec/wire.md` without showing it: the spec
-  lives in lsdocs-protocol.
+- The wire protocol page (`docs/content/reference/wire.md`) is generated
+  by `nur docs` and `nur ci` from lsdocs-protocol's `spec/wire.md`, at its
+  newest `lsdocs-protocol/v*` release tag (or the local clone, with
+  `LSDOCS_ORG_DIR`): building the site needs network access to GitHub,
+  and the page shows the released spec, not `main`'s.
 
 ## TODO
 
-- [ ] Publish the wire spec as a page (or generate one from it) and link
-      it.
 - [ ] Deployment to GitHub Pages (a workflow building `nur docs` on push).
