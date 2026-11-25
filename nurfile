@@ -86,7 +86,7 @@ def wire-spec []: nothing -> nothing {
         if $got.status != 200 {
             error make --unspanned {msg: $"downloading ($url) failed: ($got.status)"}
         }
-        $got.body | decode utf-8
+        $got.body
     }
     let base = $"($org.ORG_URL)/lsdocs-protocol/blob/($rev)/"
     let body = $text | str replace --all "\r\n" "\n" | str replace --all "](../" $"]\(($base)"
