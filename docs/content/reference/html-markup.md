@@ -38,18 +38,28 @@ element (which a script can turn into a block with a copy button):
 
 ```html
 <lsd-copy><figure class="lsd-code" id="ex" data-language="python"
-    data-linenos data-line-start="5" data-lines="1,3-4"><pre><code
-    class="language-python">...</code></pre><figcaption>Caption</figcaption></figure></lsd-copy>
+    data-linenos data-line-start="5" data-lines="1,3-4"><figcaption
+    class="lsd-code-title">Caption</figcaption><pre><code
+    class="language-python">...</code></pre></figure></lsd-copy>
 ```
 
 | Part | Meaning |
 |---|---|
 | `class="lsd-code"` | Every code block. |
 | `data-language` | The language, if there is one. |
-| `data-linenos` | Present when line numbers were asked for. `data-line-start` is the first line's number, if it is not 1. |
-| `data-lines` | The highlighted (emphasized) lines, as written: `1,3-4`. |
+| `data-linenos` | Present when line numbers were asked for (`linenos`, or MkDocs' `linenums=N`). `data-line-start` is the first line's number, if it is not 1. |
+| `data-lines` | The highlighted (emphasized) lines, as written: `1,3-4` (from `emphasize-lines`, or MkDocs' `hl_lines="1 3-4"` with commas for spaces). |
 | `id` | The figure's name (`:name:` of `code-block`). |
-| `figcaption` | The caption (`:caption:`), after the `pre`. |
+| `figcaption.lsd-code-title` | The title bar, before the `pre`, when the block has a caption (`:caption:`) or a title (`title="..."` in a fence's info string, as in MkDocs). It holds whichever one there is; with both, the title in `<strong>` and the caption in a `<p>` under it: `<figcaption class="lsd-code-title"><strong>a.py</strong><p>Caption</p></figcaption>`. |
+
+Values in a fence's info string may be quoted (`title="my file.py"`) to
+hold spaces.
+
+The default theme's script draws the line numbers and highlighted lines
+from these attributes: it adds an `aria-hidden` `<span
+class="lsd-linenos">` gutter before the `pre`, and paints the
+highlighted lines as a background gradient set in the figure's
+`--lsd-code-lines` property. Neither is part of `render-html`'s output.
 
 When `transform-highlight` knew the language, the `pre` is its own: `<pre
 class="highlight"><code class="language-rust">...</code></pre>`, with
