@@ -23,7 +23,8 @@
         lsdocs-rst-node
     ],
     lsdocs-markdown: [
-        lsdocs-parser-markdown
+        lsdocs-parser-markdown,
+        lsdocs-parser-myst
     ],
     lsdocs-apidoc: [
         lsdocs-apidoc,
