@@ -41,6 +41,11 @@ configuration.
 Results are cached in `.lsdocs-cache/` next to the configuration, so
 rebuilding unchanged pages is quick. `--no-cache` skips the cache.
 
+A build deletes the files the last build wrote to the output directory
+and this one did not (a page whose source is gone, an old theme asset).
+It knows them from `.lsdocs-cache/outputs.json`, which is kept with
+`--no-cache` too. Other files in the output directory are left alone.
+
 ## Serve
 
 ```sh
