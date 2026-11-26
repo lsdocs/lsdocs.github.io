@@ -94,6 +94,42 @@ Python's way.
 ``````
 ```````
 
+A button is a `button-link` directive (to a URL or a page's path) or a
+`button-ref` (to a page by its name, with or without its extension, or
+to a label), with its text as the content (the `extras` plugin, with
+sphinx-design's names). Without text, a `button-link` shows its URL and a
+`button-ref` the title of what it points to. `color` (`primary`,
+`secondary`, `success`, `info`, `warning`, `danger`, `muted`, `light`,
+`dark`, `white` or `black`) fills it, `outline` keeps it outlined,
+`align` (`left`, `center` or `right`) places it, `expand` makes it as
+wide as the page, and `tooltip` is shown on hover.
+
+```````{tab-set}
+``````{tab-item} Markdown
+`````md
+```{button-link} https://github.com/lsdocs
+:color: primary
+Get the code
+```
+
+```{button-ref} guide/setup
+:align: center
+```
+`````
+``````
+``````{tab-item} reStructuredText
+```rst
+.. button-link:: https://github.com/lsdocs
+   :color: primary
+
+   Get the code
+
+.. button-ref:: guide/setup
+   :align: center
+```
+``````
+```````
+
 ## Front matter
 
 A Markdown page may start with YAML between `---` lines (or TOML between

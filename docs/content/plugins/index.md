@@ -107,6 +107,12 @@ in reStructuredText and in Markdown alike. It has no settings.
   label as the argument (sphinx-design's names; its `sync-group`,
   `selected`, `sync`, `name` and class options are accepted and ignored).
   Themes show them as tabs; see [Writing pages](../guide/writing.md).
+- **Buttons:** `button-link` (to a URL or a page's path) and `button-ref`
+  (to a page by name, with or without its extension, or a label; its
+  `ref-type`, `any` by default, can say `doc` or `ref`), with their text
+  as content (sphinx-design's names). `color`, `outline`, `align`,
+  `expand` and `tooltip` are used; `click-parent`, `shadow` and the class
+  options are accepted and ignored. Themes draw them as buttons.
 
 ## apidoc-python
 
