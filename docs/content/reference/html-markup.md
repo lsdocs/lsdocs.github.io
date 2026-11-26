@@ -95,6 +95,22 @@ Without a script the panels are plain blocks, one after the other (the
 default theme shows each `data-label` above its panel). A script builds
 the tab buttons from the `data-label`s and shows one panel at a time.
 
+## Buttons
+
+`button-link` and `button-ref` directives (the `extras` plugin) become a
+paragraph holding a link drawn as a button:
+
+```html
+<p class="lsd-button-row" data-align="center">
+<a class="lsd-button" href="guide/setup.html" title="..." data-color="primary" data-outline data-expand>...</a>
+</p>
+```
+
+`data-align` (`left`, `center` or `right`), `data-color` (sphinx-design's
+color names, such as `primary` or `danger`), `data-outline` and
+`data-expand` are there only when the directive sets them; `title` is its
+`tooltip`. The link's `href` is resolved like any other link's.
+
 ## API items
 
 The API documentation framework wraps each documented item in

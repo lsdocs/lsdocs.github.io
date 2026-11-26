@@ -102,6 +102,13 @@ Tabs come from the `tab-set` and `tab-item` directives of the
 linked: choosing a label in one chooses it in the others, and the choice
 is remembered.
 
+### Buttons
+
+Buttons come from the `button-link` and `button-ref` directives of the
+`extras` plugin. The `default` theme outlines a button in the link color,
+or fills it with its `color` (outlined in that color with `outline`); the
+`plain` theme outlines it, or fills it in its accent color.
+
 ## Overrides
 
 To change a part of a theme without copying it, point `overrides` at a
