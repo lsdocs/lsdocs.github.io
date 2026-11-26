@@ -69,7 +69,9 @@ Parsers make some by convention:
 Renderers draw a `custom` node they don't know as a block holding its
 children, or, if its attribute `inline` is `true`, as an inline element
 (`render-html` uses a `span`, or the element `html_tag` names, with
-`title` as its title).
+`title` as its title). `render-html` shows a block one with a text
+`content` attribute (a directive nobody declared) in a warning, with its
+`argument`, `options` and `content`, so they are not lost.
 
 ## Links between documents
 

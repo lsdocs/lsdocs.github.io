@@ -133,4 +133,25 @@ that id. An inline custom node (attribute `inline: true`) is a `span`, or
 its `html_tag` (`em`, `kbd`, `abbr`, ...), with the same class scheme
 (`lsd-api-kind`, `lsd-abbr`, ...) and its `title`.
 
+A block custom node with a text `content` attribute that no plugin
+handled (a directive nobody declared, say) is a `<div class="lsd-KIND">`
+holding a warning admonition, then its children:
+
+```html
+<div class="lsd-KIND">
+<div class="lsd-admonition" data-kind="warning">
+<p class="lsd-admonition-title">Unknown doc tree node "KIND"</p>
+<lsd-copy><figure class="lsd-code" data-language="json">
+<figcaption class="lsd-code-title">argument</figcaption>...</figure></lsd-copy>
+<lsd-copy><figure class="lsd-code" data-language="json">
+<figcaption class="lsd-code-title">options</figcaption>...</figure></lsd-copy>
+<lsd-copy><figure class="lsd-code">
+<figcaption class="lsd-code-title">content</figcaption>...</figure></lsd-copy>
+</div>
+</div>
+```
+
+The code blocks hold the node's `argument` and `options` as JSON (each
+only when set) and its `content` as written.
+
 Raw HTML nodes are written as they are.
