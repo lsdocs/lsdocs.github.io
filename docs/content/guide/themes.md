@@ -114,10 +114,9 @@ overrides = "overrides"
 
 Each file there replaces the theme's file of the same path, or adds a new
 one. A template can extend the one it replaces, under the name
-`theme/<path>`, and replace a single block. `lsdocs serve` loads the
-theme and overrides once: restart it after editing either (or edit a
-file under `.config/`, which restarts the plugins). This replaces the default
-theme's footer:
+`theme/<path>`, and replace a single block. `lsdocs serve` reloads the
+theme and overrides when a file in either is edited, added or removed.
+This replaces the default theme's footer:
 
 ```jinja
 {# overrides/templates/page.html #}
@@ -146,9 +145,9 @@ my-theme/
     js/theme.js
 ```
 
-While writing a theme, restart `lsdocs serve` after each edit: it loads
-the theme once (or edit a file under `.config/`, which restarts the
-plugins).
+While writing a theme, `lsdocs serve` reloads it (restarting the
+plugins) when a file in its directory is edited, added or removed, and
+reloads the open pages.
 
 `theme.toml` declares the theme's settings and their defaults under
 `[settings]`. There is no separate schema: a setting's kind is its
